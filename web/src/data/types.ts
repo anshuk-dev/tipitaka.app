@@ -101,3 +101,23 @@ export interface MentionRef { key: string; para: number; pre: string; word: stri
 export interface ParaName extends Entity { i: number; s: number; e: number; amb: number }
 export interface SettingRow extends Entity { role: SettingRole; ord: number; src: string; conf: number; evKey: string; evPara: number }
 export interface UnitSetting { key: string; title: string; para: number; end: number; rows: SettingRow[] }
+
+export interface Translation {
+  i: number
+  title?: string
+  t: string
+  v?: string
+  lang: string
+  source: string
+  translator: string
+  conf: number
+}
+
+export interface TranslationChunk {
+  key: string
+  book: number
+  from: number
+  to: number
+  translations: Translation[]
+}
+

@@ -20,6 +20,7 @@
       </div>
       <div class="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3">
         <DictView v-if="ui.panelTab === 'dict'" :word="ui.lookupWord" mode="lookup" compact />
+        <TranslationView v-else-if="ui.panelTab === 'trans'" />
         <SettingView v-else-if="ui.panelTab === 'info'" />
         <!-- the explanation of the tapped word's underline, else the commentary of its paragraph -->
         <GlossView v-else-if="ui.lookupGlosses.length" :glosses="ui.lookupGlosses" />
@@ -34,6 +35,7 @@ import { computed, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import IconX from '~icons/lucide/x'
 import DictView from './DictView.vue'
+import TranslationView from './TranslationView.vue'
 import GlossView from './GlossView.vue'
 import LinksView from './LinksView.vue'
 import SettingView from './SettingView.vue'
@@ -46,9 +48,13 @@ const { width, height: vh } = useWindowSize()
 const wide = computed(() => width.value >= 1200)
 // the Commentary tab counts the explanations of the tapped word (one per commentary passage)
 const glossCount = computed(() => new Set(ui.lookupGlosses.map(g => `${g.side}:${g.b}:${g.t}:${g.ts}`)).size)
-const tabs = computed(() => [{ id: 'dict' as const, label: t('Dictionary'), count: 0 }, { id: 'links' as const, label: t('Commentary'), count: glossCount.value },
+const tabs = computed(() => [
+  { id: 'dict' as const, label: t('Dictionary'), count: 0 },
+  { id: 'trans' as const, label: t('Translation') || 'अनुवाद', count: 0 },
+  { id: 'links' as const, label: t('Commentary'), count: glossCount.value },
   // the setting (place, people) of the reading position, a tapped word or the paragraph of the menu
-  { id: 'info' as const, label: t('Setting'), count: 0 }])
+  { id: 'info' as const, label: t('Setting'), count: 0 }
+])
 
 // sheet height in % of the screen: the saved value, or the live value while dragging
 const dragging = ref<number | null>(null)

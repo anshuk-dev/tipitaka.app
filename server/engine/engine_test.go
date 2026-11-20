@@ -69,6 +69,28 @@ func TestText(t *testing.T) {
 	}
 }
 
+func TestTranslation(t *testing.T) {
+	e := fixture(t)
+	tr, err := e.Translation(ctx, "kn-dhp-1", 4, 3, "hi")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(tr.Translations) == 0 {
+		t.Fatal("expected translations for kn-dhp-1")
+	}
+	if tr.Translations[0].Idx != 4 || tr.Translations[0].Lang != "hi" || tr.Translations[0].Source != "vri-translation" {
+		t.Fatalf("unexpected translation %+v", tr.Translations[0])
+	}
+	res, err := e.Call(ctx, "translation", MapParams{"key": "kn-dhp-1", "from": 4, "count": 2, "lang": "hi"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	chunk, ok := res.(*TranslationChunk)
+	if !ok || len(chunk.Translations) != 2 {
+		t.Fatalf("call translation response: %+v", res)
+	}
+}
+
 func TestLinks(t *testing.T) {
 	e := fixture(t)
 	links, err := e.Links(ctx, "dn-1-1", -1, -1)

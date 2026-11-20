@@ -7,6 +7,17 @@ import { BOOKMARKS_KEY, useLibrary } from './library'
 import { MAX_TABS, TABS_KEY, useTabs } from './tabs'
 import type { Api } from '@/data/api'
 
+const store = new Map<string, string>()
+const mockStorage = {
+  getItem: (k: string) => store.get(k) ?? null,
+  setItem: (k: string, v: string) => store.set(k, String(v)),
+  removeItem: (k: string) => store.delete(k),
+  clear: () => store.clear(),
+}
+if (!globalThis.localStorage || !globalThis.localStorage.clear) {
+  Object.defineProperty(globalThis, 'localStorage', { value: mockStorage, configurable: true, writable: true })
+}
+
 beforeEach(() => {
   localStorage.clear()
   setActivePinia(createPinia())

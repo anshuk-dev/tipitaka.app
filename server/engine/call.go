@@ -95,7 +95,7 @@ func splitList(p Params, name string) []string {
 }
 
 // Ops are the names accepted by Call (the API, documented in dev-docs/api.md).
-var Ops = []string{"meta", "children", "node", "text", "links", "glosses", "titles", "fts", "dicts", "dict", "lookup", "legacy", "names", "entity", "settings", "mentions", "paranames"}
+var Ops = []string{"meta", "children", "node", "text", "translation", "links", "glosses", "titles", "fts", "dicts", "dict", "lookup", "legacy", "names", "entity", "settings", "mentions", "paranames"}
 
 // Call runs an operation. Errors are *ParamError (bad request), ErrNotFound, *ErrTooBroad or internal.
 func (e *Engine) Call(ctx context.Context, op string, p Params) (any, error) {
@@ -130,6 +130,24 @@ func (e *Engine) Call(ctx context.Context, op string, p Params) (any, error) {
 			return nil, err
 		}
 		return e.Text(ctx, key, from, count)
+	case "translation":
+		key, err := str(p, "key")
+		if err != nil {
+			return nil, err
+		}
+		from, err := num(p, "from", -1)
+		if err != nil {
+			return nil, err
+		}
+		count, err := num(p, "count", 0)
+		if err != nil {
+			return nil, err
+		}
+		lang, err := str(p, "lang")
+		if err != nil {
+			return nil, err
+		}
+		return e.Translation(ctx, key, from, count, lang)
 	case "links":
 		key, err := str(p, "key")
 		if err != nil {

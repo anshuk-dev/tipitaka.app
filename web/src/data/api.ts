@@ -4,7 +4,7 @@
  *  - NativeSource: the engine compiled into the Android / iOS app, reached through the native bridge
  * The front door (Api) adds a small LRU cache, request de-duplication and the SSR prefill.
  */
-import type { DictResult, Dict, Entity, EntityInfo, EntityType, FtsResult, LegacyTarget, Link, MentionRef, Meta, NodeInfo, ParaName, TextChunk, TitleHit, TNode, Gloss, UnitSetting } from './types'
+import type { DictResult, Dict, Entity, EntityInfo, EntityType, FtsResult, LegacyTarget, Link, MentionRef, Meta, NodeInfo, ParaName, TextChunk, TitleHit, TNode, Gloss, UnitSetting, TranslationChunk } from './types'
 
 export type Params = Record<string, string | number | boolean | undefined>
 
@@ -140,6 +140,7 @@ export class Api {
   children = (key: string) => this.call<TNode[]>('children', { key })
   node = (key: string) => this.call<NodeInfo>('node', { key })
   text = (key: string, from?: number, count?: number) => this.call<TextChunk>('text', { key, from, count })
+  translation = (key: string, from?: number, count?: number, lang = 'hi') => this.call<TranslationChunk>('translation', { key, from, count, lang })
   links = (key: string, from?: number, to?: number) => this.call<Link[]>('links', { key, from, to })
   glosses = (key: string, from?: number, to?: number) => this.call<Gloss[]>('glosses', { key, from, to })
   titles = (q: string, filter?: string[], limit?: number) => this.call<TitleHit[]>('titles', { q, filter: filter?.join(','), limit })

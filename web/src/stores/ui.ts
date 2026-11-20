@@ -6,7 +6,7 @@ import type { Gloss } from '@/data/types'
 export const useUi = defineStore('ui', () => {
   const treeOpen = ref(typeof window !== 'undefined' && window.innerWidth >= 1200)
   const panelOpen = ref(false)
-  const panelTab = ref<'dict' | 'links' | 'info'>('dict')
+  const panelTab = ref<'dict' | 'trans' | 'links' | 'info'>('dict')
   /** word being looked up in the study panel (Roman) */
   const lookupWord = ref('')
   /** commentary alignment of the looked up word (its underline): the Commentary tab shows its explanation */
@@ -15,6 +15,8 @@ export const useUi = defineStore('ui', () => {
   const alongside = ref<{ key: string; para: number } | null>(null)
   /** paragraph whose commentary is shown in the panel */
   const linkTarget = ref<{ key: string; para: number } | null>(null)
+  /** paragraph whose translation is shown in the panel */
+  const translationTarget = ref<{ key: string; para: number } | null>(null)
   /** paragraph whose setting (place, people) is shown in the panel's Setting tab: the reading position, a tapped
    * word's paragraph, or the paragraph of the menu */
   const settingTarget = ref<{ key: string; para: number } | null>(null)
@@ -37,9 +39,15 @@ export const useUi = defineStore('ui', () => {
   function openLookup(word: string, glosses: Gloss[] = [], para?: { key: string; para: number }) {
     lookupWord.value = word
     lookupGlosses.value = glosses
-    // the Setting tab shows the setting of the tapped word's paragraph
-    if (para) { linkTarget.value = para; settingTarget.value = para }
+    // the Setting and Translation tabs follow the tapped word's paragraph
+    if (para) { linkTarget.value = para; settingTarget.value = para; translationTarget.value = para }
     if (!panelOpen.value || !word) panelTab.value = word ? 'dict' : 'links'
+    panelOpen.value = true
+  }
+  /** the translation of a paragraph (paragraph menu or study panel tab) */
+  function openTranslation(para: { key: string; para: number }) {
+    translationTarget.value = para
+    panelTab.value = 'trans'
     panelOpen.value = true
   }
   /** the commentary of a whole paragraph (paragraph menu) */
@@ -55,6 +63,6 @@ export const useUi = defineStore('ui', () => {
     panelTab.value = 'info'
     panelOpen.value = true
   }
-  return { treeOpen, panelOpen, panelTab, lookupWord, lookupGlosses, alongside, linkTarget, settingTarget, navInTab, lastPage, toast, showToast,
-    openLookup, openParaCommentary, openSetting }
+  return { treeOpen, panelOpen, panelTab, lookupWord, lookupGlosses, alongside, linkTarget, translationTarget, settingTarget, navInTab, lastPage, toast, showToast,
+    openLookup, openTranslation, openParaCommentary, openSetting }
 })

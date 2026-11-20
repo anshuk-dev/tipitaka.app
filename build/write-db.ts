@@ -14,6 +14,7 @@ import type { Gloss } from './align'
 import { displayName, type Gazetteer } from './names/gazetteer'
 import type { Setting } from './names/settings'
 import type { Mention } from './names/mentions'
+import { importTranslations } from './translation'
 
 export const SCHEMA_VERSION = 2
 export const PARA_ID_SHIFT = 1 << 20
@@ -84,6 +85,20 @@ CREATE TABLE mention (para_id INTEGER NOT NULL, s INTEGER NOT NULL, e INTEGER NO
 CREATE INDEX mention_entity ON mention(entity_id, para_id);
 -- the names most often mentioned in the same paragraphs as a name (sure mentions; the 40 most frequent)
 CREATE TABLE comention (entity_id INTEGER NOT NULL, other_id INTEGER NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (entity_id, other_id)) WITHOUT ROWID;
+-- paragraph-level translation (e.g. Hindi VRI style)
+CREATE TABLE translation (
+  id INTEGER PRIMARY KEY,
+  book_id INTEGER NOT NULL,
+  para_idx INTEGER NOT NULL,
+  lang TEXT NOT NULL DEFAULT 'hi',
+  title TEXT,
+  text TEXT NOT NULL,
+  verse TEXT,
+  source TEXT NOT NULL,
+  translator TEXT NOT NULL,
+  conf REAL DEFAULT 1.0,
+  UNIQUE(book_id, para_idx, lang));
+CREATE INDEX translation_lookup ON translation(book_id, para_idx, lang);
 `
 
 export interface WriteResult { nodeIds: Map<number, number>; tokenCount: number; postingCount: number; linkCount: number }
@@ -143,6 +158,7 @@ export function writeDb(file: string, c: Corpus, links: ParaLink[], meta: Record
     for (const l of legacy) insLegacy.run(l.file, l.line, l.key, l.para)
 
     if (names) writeNames(db, names, nodeIds)
+    importTranslations(db, 'data/translations')
   })
   tx()
   db.exec('ANALYZE')

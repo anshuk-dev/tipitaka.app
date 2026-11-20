@@ -273,3 +273,78 @@ func (e *Engine) Legacy(ctx context.Context, file string, line int) (*LegacyTarg
 	}
 	return &t, nil
 }
+
+// Translation is a translated paragraph.
+type Translation struct {
+	Idx        int     `json:"i"`
+	Title      string  `json:"title,omitempty"`
+	Text       string  `json:"t"`
+	Verse      string  `json:"v,omitempty"`
+	Lang       string  `json:"lang"`
+	Source     string  `json:"source"`
+	Translator string  `json:"translator"`
+	Conf       float64 `json:"conf"`
+}
+
+// TranslationChunk is the response of a translation lookup.
+type TranslationChunk struct {
+	Key          string        `json:"key"`
+	Book         int           `json:"book"`
+	From         int           `json:"from"`
+	To           int           `json:"to"`
+	Translations []Translation `json:"translations"`
+}
+
+// Translation returns translations of the book of key.
+func (e *Engine) Translation(ctx context.Context, key string, from, count int, lang string) (*TranslationChunk, error) {
+	if lang == "" {
+		lang = "hi"
+	}
+	n, err := e.node(key)
+	if err != nil {
+		return nil, err
+	}
+	if n.Book < 0 {
+		return nil, &ParamError{"not a text node"}
+	}
+	b := e.books[n.Book]
+	if from < 0 {
+		from = n.Start
+	}
+	if count <= 0 {
+		count = n.End - from
+		if count > defTextCount {
+			count = defTextCount
+		}
+	}
+	if count > maxTextCount {
+		count = maxTextCount
+	}
+	if from >= b.ParaCount {
+		from = b.ParaCount - 1
+	}
+	to := from + count
+	if to > b.ParaCount {
+		to = b.ParaCount
+	}
+
+	rows, err := e.text.QueryContext(ctx, "SELECT para_idx, title, text, verse, lang, source, translator, conf FROM translation WHERE book_id = ? AND para_idx >= ? AND para_idx < ? AND lang = ? ORDER BY para_idx", n.Book, from, to, lang)
+	if err != nil {
+		return &TranslationChunk{Key: key, Book: n.Book, From: from, To: to, Translations: []Translation{}}, nil
+	}
+	defer rows.Close()
+
+	var list []Translation
+	for rows.Next() {
+		var tr Translation
+		if err := rows.Scan(&tr.Idx, &tr.Title, &tr.Text, &tr.Verse, &tr.Lang, &tr.Source, &tr.Translator, &tr.Conf); err != nil {
+			return nil, err
+		}
+		list = append(list, tr)
+	}
+	if list == nil {
+		list = []Translation{}
+	}
+	return &TranslationChunk{Key: key, Book: n.Book, From: from, To: to, Translations: list}, nil
+}
+
