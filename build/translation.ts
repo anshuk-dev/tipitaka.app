@@ -54,12 +54,14 @@ export function importTranslations(db: Database.Database, dir: string) {
             bId = booksByName.get(bookRef.toLowerCase())
           }
           if (bId === undefined) continue
+          const textContent = rec.text ?? (rec as any).translation ?? ''
+          if (!textContent) continue
           ins.run(
             bId,
             paraRef,
             rec.lang ?? lang ?? 'hi',
             rec.title ?? '',
-            rec.text,
+            textContent,
             rec.verse ?? '',
             rec.source ?? 'vri-ai',
             rec.translator ?? 'Tipiṭaka.app VRI Translation Project',
