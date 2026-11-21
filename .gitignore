@@ -6,10 +6,12 @@ node_modules
 dist
 Android
 dict-all.db
+data/*.db
 
 
 server/bin
 server-data/db/dict-all.db
+data/*.db
 *.fiber.gz
 sign-notorize.sh
 dist-desktop

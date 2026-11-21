@@ -99,7 +99,17 @@ const xmlCache = new Map<string, { paras: { rend: string; text: string; num: str
 function getXmlParas(book: string) {
   let cleanBook = book.replace(/\.jsonl$/, '')
   if (!cleanBook.endsWith('.xml')) {
-    cleanBook = cleanBook.replace(/\.mul$|\.att$|\.tik$|\.nrf$/, '') + (book.includes('.') ? book.slice(book.indexOf('.')) : '.mul') + '.xml'
+    if (cleanBook.includes('.')) {
+      cleanBook = cleanBook + '.xml'
+    } else if (cleanBook.endsWith('a')) {
+      cleanBook = cleanBook + '.att.xml'
+    } else if (cleanBook.endsWith('t')) {
+      cleanBook = cleanBook + '.tik.xml'
+    } else if (cleanBook.endsWith('m')) {
+      cleanBook = cleanBook + '.mul.xml'
+    } else {
+      cleanBook = cleanBook + '.mul.xml'
+    }
   }
   if (xmlCache.has(cleanBook)) return xmlCache.get(cleanBook)!.paras
 
