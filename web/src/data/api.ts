@@ -4,7 +4,7 @@
  *  - NativeSource: the engine compiled into the Android / iOS app, reached through the native bridge
  * The front door (Api) adds a small LRU cache, request de-duplication and the SSR prefill.
  */
-import type { DictResult, Dict, Entity, EntityInfo, EntityType, FtsResult, LegacyTarget, Link, MentionRef, Meta, NodeInfo, ParaName, TextChunk, TitleHit, TNode, Gloss, UnitSetting, TranslationChunk } from './types'
+import type { DictResult, Dict, Entity, EntityInfo, EntityType, FtsResult, LegacyTarget, Link, MentionRef, Meta, NodeInfo, ParaName, TextChunk, TitleHit, TNode, Gloss, UnitSetting, TranslationChunk, Translation } from './types'
 
 export type Params = Record<string, string | number | boolean | undefined>
 
@@ -14,6 +14,82 @@ export class ApiError extends Error {
 
 export interface DataSource {
   call<T>(op: string, params: Params): Promise<T>
+}
+
+interface StaticStore {
+  meta: Meta
+  childrenMap: Record<string, TNode[]>
+  nodeInfos: Record<string, NodeInfo>
+  parasByNodeKey: Record<string, TextChunk['paras']>
+  translationsByNodeKey: Record<string, Translation[]>
+}
+
+let staticStorePromise: Promise<StaticStore | null> | null = null
+
+function getStaticStore(base: string): Promise<StaticStore | null> {
+  if (!staticStorePromise) {
+    const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
+    const url = cleanBase ? `${cleanBase}/static-data.json` : 'static-data.json'
+    staticStorePromise = fetch(url)
+      .then(r => (r.ok ? r.json() : null))
+      .catch(() => null)
+  }
+  return staticStorePromise
+}
+
+function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | undefined {
+  if (op === 'meta') {
+    return store.meta as T
+  }
+  if (op === 'children') {
+    const key = params.key ? String(params.key) : ''
+    return (store.childrenMap[key] || []) as T
+  }
+  if (op === 'node') {
+    const key = String(params.key || '')
+    return (store.nodeInfos[key] || null) as T
+  }
+  if (op === 'text') {
+    const key = String(params.key || '')
+    const node = store.nodeInfos[key]
+    const allParas = store.parasByNodeKey[key] || []
+    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : (node?.start ?? 0)
+    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : allParas.length
+    const to = from + count
+    const paras = allParas.filter(p => p.i >= from && p.i < to)
+    return {
+      book: node?.book ?? 0,
+      from,
+      to,
+      paras: paras.length > 0 ? paras : allParas,
+      nodes: node ? [node] : [],
+    } as T
+  }
+  if (op === 'translation') {
+    const key = String(params.key || '')
+    const trs = store.translationsByNodeKey[key] || []
+    const node = store.nodeInfos[key]
+    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : 0
+    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : trs.length
+    const to = from + count
+    const list = params.from !== undefined && Number(params.from) >= 0
+      ? trs.filter(t => t.i >= from && t.i < to)
+      : trs
+    return {
+      key,
+      book: node?.book ?? 0,
+      from,
+      to,
+      translations: list.length > 0 ? list : trs,
+    } as T
+  }
+  if (op === 'titles' || op === 'dicts' || op === 'links' || op === 'glosses' || op === 'mentions' || op === 'paranames') {
+    return [] as unknown as T
+  }
+  if (op === 'settings') {
+    return null as T
+  }
+  return undefined
 }
 
 /** string params with sorted keys (must equal server/ssr.go cacheKey) */
@@ -34,14 +110,30 @@ export class HttpSource implements DataSource {
     const qs = new URLSearchParams(normParams(params))
     const v = this.version()
     if (v) qs.set('v', v)
-    let res: Response
+    let res: Response | null = null
+    let fetchErr: Error | null = null
     try {
       res = await this.fetchImpl(`${this.base}api/${op}?${qs}`)
+      if (res.ok) {
+        const body = await res.json().catch(() => null)
+        if (body !== null) return body as T
+      }
     } catch (e) {
-      throw new ApiError((e as Error).message, 'network')
+      fetchErr = e as Error
     }
-    const body = await res.json().catch(() => null)
-    if (!res.ok) throw new ApiError(body?.message ?? `HTTP ${res.status}`, body?.error ?? 'internal')
+
+    const store = await getStaticStore(this.base)
+    if (store) {
+      const resolved = resolveStatic<T>(store, op, params)
+      if (resolved !== undefined) return resolved
+    }
+
+    if (fetchErr) {
+      throw new ApiError(fetchErr.message, 'network')
+    }
+
+    const body = await res?.json().catch(() => null)
+    if (res && !res.ok) throw new ApiError(body?.message ?? `HTTP ${res.status}`, body?.error ?? 'internal')
     return body as T
   }
 }
