@@ -27,7 +27,7 @@ const paliBound = (inner: string) => new RegExp(`(?<!${PALI_LETTER})(${inner})(?
 
 // Key VRI terminology mappings
 // Pali term regex (case-insensitive) -> required Hindi root / keywords
-const TERMINOLOGY_RULES = [
+export const TERMINOLOGY_RULES = [
   {
     term: 'vedanā',
     paliPattern: paliBound(`vedan[aā]${PALI_LETTER}*`),
@@ -96,7 +96,7 @@ const TERMINOLOGY_RULES = [
 // Cache parsed XML files
 const xmlCache = new Map<string, { paras: { rend: string; text: string; num: string }[] }>()
 
-function getXmlParas(book: string) {
+export function getXmlParas(book: string) {
   let cleanBook = book.replace(/\.jsonl$/, '')
   if (!cleanBook.endsWith('.xml')) {
     if (cleanBook.includes('.')) {

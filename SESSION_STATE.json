@@ -3,13 +3,19 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T18:28:00+05:30",
-  "status": "GRAND_CANON_100_PERCENT_COMPLETED_AND_DEPLOYED",
+  "last_updated_at": "2026-11-22T00:43:00+05:30",
+  "status": "GRAND_CANON_100_PERCENT_COMPLETED_REVIEWED_AND_VERIFIED",
   "total_translated_paras": 465242,
   "total_cst_books": 217,
   "total_cst_books_translated": 217,
   "total_corpus_paras": 465242,
   "completion_percentage": "100.0%",
+  "verification": {
+    "total_records_verified": 465242,
+    "errors": 0,
+    "warnings": 0,
+    "test_suite": "128 / 128 Vitest tests passed"
+  },
   "overall_hierarchy": [
     "1. Sutta Piṭaka (Mūla, Aṭṭhakathā, Ṭīkā - All 5 Nikāyas: 101/101 books, 100.0% COMPLETE)",
     "2. Vinaya Piṭaka (Mūla, Aṭṭhakathā, Ṭīkā - All 23/23 books, 100.0% COMPLETE)",
