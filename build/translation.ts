@@ -3,8 +3,10 @@ import path from 'node:path'
 import type Database from 'better-sqlite3'
 
 export interface TranslationRecord {
-  book: number | string
-  para: number
+  book?: number | string
+  book_id?: number | string
+  para?: number
+  para_idx?: number
   lang?: string
   title?: string
   text: string
@@ -44,14 +46,17 @@ export function importTranslations(db: Database.Database, dir: string) {
       for (const line of lines) {
         try {
           const rec: TranslationRecord = JSON.parse(line)
-          let bId = typeof rec.book === 'number' ? rec.book : booksByName.get(rec.book)
-          if (bId === undefined && typeof rec.book === 'string') {
-            bId = booksByName.get(rec.book.toLowerCase())
+          const bookRef = rec.book ?? rec.book_id
+          const paraRef = rec.para ?? rec.para_idx
+          if (paraRef === undefined) continue
+          let bId = typeof bookRef === 'number' ? bookRef : (bookRef ? booksByName.get(bookRef) : undefined)
+          if (bId === undefined && typeof bookRef === 'string') {
+            bId = booksByName.get(bookRef.toLowerCase())
           }
           if (bId === undefined) continue
           ins.run(
             bId,
-            rec.para,
+            paraRef,
             rec.lang ?? lang ?? 'hi',
             rec.title ?? '',
             rec.text,
