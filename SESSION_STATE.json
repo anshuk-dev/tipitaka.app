@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T17:45:00+05:30",
+  "last_updated_at": "2026-11-21T17:50:00+05:30",
   "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 24377,
+  "total_translated_paras": 45157,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
@@ -176,6 +176,139 @@
       "pali_title": "Mahāvagga-ṭīkā (महावग्ग-टीका - लीनत्थप्पकासिनी)",
       "paras": "850 / 850 (100.0%)",
       "details": "Sub-commentary on Mahāvagga."
+    },
+    {
+      "book_id": "s0401m.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Ekakanipātapāḷi (एककनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "400 / 400 (100.0%)",
+      "details": "Pabhassaramidaṃ cittaṃ (चित्त-प्रभास्वरता), Kalyāṇamittatā, Appamāda, Ekadhamma."
+    },
+    {
+      "book_id": "s0402m1.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Dukanipātapāḷi (दुकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "318 / 318 (100.0%)",
+      "details": "Samatha-Vipassanā (शमथ-विपश्यना), Hirī-Ottappa (संसार के दो रक्षक धर्म), Kamma-vipāka."
+    },
+    {
+      "book_id": "s0402m2.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Tikanipātapāḷi (तिकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "1336 / 1336 (100.0%)",
+      "details": "Kālāmasutta (कालम-उपदेश / केसपुत्तिय), 3 Saṅkhāra, 3 Vedanā, 3 Lakkhaṇa, 3 Ratana."
+    },
+    {
+      "book_id": "s0402m3.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Catukkanipātapāḷi (चतुक्कनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "1950 / 1950 (100.0%)",
+      "details": "4 Ariyasacca, 4 Satipaṭṭhāna, 4 Sammappadhāna, 4 Brahmavihāra, 4 Puggala."
+    },
+    {
+      "book_id": "s0403m1.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Pañcakanipātapāḷi (पंचकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "1632 / 1632 (100.0%)",
+      "details": "5 Bala, 5 Indriya, 5 Nīvaraṇa, 5 Khandha, Upāsaka-dhamma."
+    },
+    {
+      "book_id": "s0403m2.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Chakkanipātapāḷi (छक्कनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "856 / 856 (100.0%)",
+      "details": "6 Anussati (बुद्ध, धर्म, संघ, शील, त्याग, देवता), 6 Dhātu, 6 Āyatana."
+    },
+    {
+      "book_id": "s0403m3.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Sattakanipātapāḷi (सत्तकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "791 / 791 (100.0%)",
+      "details": "7 Bojjhaṅga, 7 Dhana, 7 Anusaya, Sattasūriyasutta (सात सूर्य)."
+    },
+    {
+      "book_id": "s0404m1.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Aṭṭhakanipātapāḷi (अट्ठकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "1040 / 1040 (100.0%)",
+      "details": "8 Lokadhamma (आठ लोकधर्म), Ariya Aṭṭhaṅgika Magga, 8 Vimokkha."
+    },
+    {
+      "book_id": "s0404m2.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Navakanipātapāḷi (नववनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "502 / 502 (100.0%)",
+      "details": "9 Anupubbavihāra (4 Jhāna, 4 Arūpa, Saññāvedayitanirodha), 9 Āghātavatthu."
+    },
+    {
+      "book_id": "s0404m3.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Dasakanipātapāḷi (दसकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "1604 / 1604 (100.0%)",
+      "details": "10 Pāramī, 10 Ariyāvāsa, 10 Saṃyojana, Sacchikaraṇīyadhamma."
+    },
+    {
+      "book_id": "s0404m4.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Ekādasakanipātapāḷi (एकादसकनिपातपालि - अङ्गुत्तरनिकाय)",
+      "paras": "245 / 245 (100.0%)",
+      "details": "11 Mettānisasa (मैत्री भावना के ११ लाभ), Mahāgopālakasutta, Dvādasaka."
+    },
+    {
+      "book_id": "s0401a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Ekakanipāta-aṭṭhakathā (एककनिपात-अट्ठकथा - मनोरथपूरणी)",
+      "paras": "1624 / 1624 (100.0%)",
+      "details": "Manorathapūraṇī: Ganthārambhakathā (Karuṇāsītalahadayaṃ) and Ekakanipātavaṇṇanā."
+    },
+    {
+      "book_id": "s0402a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Duka-tika-catukkanipāta-aṭṭhakathā (दुक-तिक-चतुक्कनिपात-अट्ठकथा - मनोरथपूरणी)",
+      "paras": "1721 / 1721 (100.0%)",
+      "details": "Manorathapūraṇī on Duka, Tika, and Catukkanipāta."
+    },
+    {
+      "book_id": "s0403a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Pañcaka-chakka-sattakanipāta-aṭṭhakathā (पंचक-छक्क-सत्तकनिपात-अट्ठकथा - मनोरथपूरणी)",
+      "paras": "985 / 985 (100.0%)",
+      "details": "Manorathapūraṇī on Pañcaka, Chakka, and Sattakanipāta."
+    },
+    {
+      "book_id": "s0404a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Aṭṭhakādinipāta-aṭṭhakathā (अट्ठकादिनिपात-अट्ठकथा - मनोरथपूरणी)",
+      "paras": "796 / 796 (100.0%)",
+      "details": "Manorathapūraṇī on Aṭṭhaka, Navaka, Dasaka, and Ekādasakanipāta."
+    },
+    {
+      "book_id": "s0401t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Ekakanipāta-ṭīkā (एककनिपात-टीका - सारत्थमञ्जूसा)",
+      "paras": "1173 / 1173 (100.0%)",
+      "details": "Sāratthamañjūsā sub-commentary by Ācariya Sāriputta on Ekakanipāta."
+    },
+    {
+      "book_id": "s0402t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Duka-tika-catukkanipāta-ṭīkā (दुक-तिक-चतुक्कनिपात-टीका - सारत्थमञ्जूसा)",
+      "paras": "1925 / 1925 (100.0%)",
+      "details": "Sāratthamañjūsā on Duka, Tika, and Catukkanipāta."
+    },
+    {
+      "book_id": "s0403t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Pañcaka-chakka-sattakanipāta-ṭīkā (पंचक-छक्क-सत्तकनिपात-टीका - सारत्थमञ्जूसा)",
+      "paras": "1026 / 1026 (100.0%)",
+      "details": "Sāratthamañjūsā on Pañcaka, Chakka, and Sattakanipāta."
+    },
+    {
+      "book_id": "s0404t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Aṭṭhakādinipāta-ṭīkā (अट्ठकादिनिपात-टीका - सारत्थमञ्जूसा)",
+      "paras": "856 / 856 (100.0%)",
+      "details": "Sāratthamañjūsā on Aṭṭhaka, Navaka, Dasaka, and Ekādasakanipāta."
     }
   ],
   "verification": {
