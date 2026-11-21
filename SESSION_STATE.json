@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T18:02:40+05:30",
+  "last_updated_at": "2026-11-21T18:05:00+05:30",
   "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 104667,
+  "total_translated_paras": 146647,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
@@ -456,6 +456,62 @@
       "pali_title": "Kathāvatthupāḷi (कथावत्थुपालि)",
       "paras": "3460 / 3460 (100.0%)",
       "details": "216 doctrinal controversies refuted by Ven. Moggaliputtatissa at 3rd Council with 237 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh03m4.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Yamakapāḷi 1 (यमकपालि भाग १ - मूल, खन्ध, आयतन, धातु, सच्च)",
+      "paras": "4774 / 4774 (100.0%)",
+      "details": "Pairs of questions (Anuloma-Paṭiloma) analyzing Roots, Aggregates, Sense Bases, Elements, and Truths."
+    },
+    {
+      "book_id": "abh03m5.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Yamakapāḷi 2 (यमकपालि भाग २ - सङ्खार, अनुसय, चित्त)",
+      "paras": "3859 / 3859 (100.0%)",
+      "details": "Yamaka dialectic analysis on Saṅkhāra (kāya/vacī/citta), latent tendencies (Anusaya), and states of Consciousness."
+    },
+    {
+      "book_id": "abh03m6.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Yamakapāḷi 3 (यमकपालि भाग ३ - धम्म एवं इन्द्रिय)",
+      "paras": "5586 / 5586 (100.0%)",
+      "details": "Yamaka dialectic analysis on Wholesome/Unwholesome Dhammas and 22 Faculties (Indriyas)."
+    },
+    {
+      "book_id": "abh03m7.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Tikapaṭṭhānapāḷi 1 (टिकपट्ठानपालि भाग १ - २४ प्रत्यय एवं हेतु-आलम्बनादि निर्देश)",
+      "paras": "4301 / 4301 (100.0%)",
+      "details": "Paccayaniddesa of the 24 universal conditional relations (Hetu, Ārammaṇa, Adhipati, Sahajāta, etc.) with 16 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh03m8.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Tikapaṭṭhānapāḷi 2 (टिकपट्ठानपालि भाग २ - त्रिक प्रत्यय विस्तार)",
+      "paras": "4241 / 4241 (100.0%)",
+      "details": "Conditional relations applied to the 22 Abhidhamma Triads (Tika)."
+    },
+    {
+      "book_id": "abh03m9.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Dukapaṭṭhānapāḷi 1 (दुकपट्ठानपालि भाग १ - द्विक प्रत्यय निर्देश)",
+      "paras": "6004 / 6004 (100.0%)",
+      "details": "Conditional relations applied to the Abhidhamma Dyads (Duka)."
+    },
+    {
+      "book_id": "abh03m10.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Dukapaṭṭhānapāḷi 2 (दुकपट्ठानपालि भाग २ - द्विक प्रत्यय विस्तार)",
+      "paras": "8046 / 8046 (100.0%)",
+      "details": "Comprehensive conditional causation matrix across Duka categories."
+    },
+    {
+      "book_id": "abh03m11.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Dukatika & Tikaduka-paṭṭhānapāḷi (दुकटिकपट्ठानपालि - महापट्ठान महापरिशेष)",
+      "paras": "5169 / 5169 (100.0%)",
+      "details": "Exhaustive synthesis of Dyad-Triad and Triad-Dyad conditional relations concluding Abhidhamma Mūla."
     }
   ],
   "verification": {
