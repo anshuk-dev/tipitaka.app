@@ -1,6 +1,7 @@
 # Tipiṭaka.app – Chaṭṭha Saṅgāyana Tipiṭaka
 
-- **Live Web App:** [https://anshuk-dev.github.io/tipitaka.app/](https://anshuk-dev.github.io/tipitaka.app/)
+- **Live Web App (Cloudflare):** [https://tipitaka-app-7o5.pages.dev](https://tipitaka-app-7o5.pages.dev)
+- **Live Web App (GitHub Pages mirror):** [https://anshuk-dev.github.io/tipitaka.app/](https://anshuk-dev.github.io/tipitaka.app/)
 - **GitHub Repository:** [https://github.com/anshuk-dev/tipitaka.app](https://github.com/anshuk-dev/tipitaka.app)
 - **Upstream Repository:** [https://github.com/pnfo/tipitaka.app](https://github.com/pnfo/tipitaka.app)
 
