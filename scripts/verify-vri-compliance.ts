@@ -113,9 +113,14 @@ function getXmlParas(book: string) {
   }
   if (xmlCache.has(cleanBook)) return xmlCache.get(cleanBook)!.paras
 
-  const filePath = path.join(xmlDir, cleanBook)
+  let filePath = path.join(xmlDir, cleanBook)
   if (!fs.existsSync(filePath)) {
-    return null
+    const nrfPath = filePath.replace(/\.mul\.xml$/, '.nrf.xml')
+    if (fs.existsSync(nrfPath)) {
+      filePath = nrfPath
+    } else {
+      return null
+    }
   }
 
   try {

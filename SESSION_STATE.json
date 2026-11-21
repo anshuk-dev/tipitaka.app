@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T17:56:00+05:30",
+  "last_updated_at": "2026-11-21T17:59:30+05:30",
   "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 69716,
+  "total_translated_paras": 94110,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
@@ -386,6 +386,41 @@
       "pali_title": "Jātakapāḷi (जातकपालि)",
       "paras": "7533 / 7533 (100.0%)",
       "details": "Complete 22 Nipātas of the 547 Jātaka verse collections with 6,304 gāthā lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "s0510m1.mul",
+      "collection": "Khuddaka Nikāya Mūla",
+      "pali_title": "Apadānapāḷi 1 (अपदानपालि भाग १ - बुद्ध, पच्चेकबुद्ध एवं थेर-अपदान)",
+      "paras": "10185 / 10185 (100.0%)",
+      "details": "Buddha-apadāna, Paccekabuddha-apadāna, and Thera-apadānas 1-300+ with 8,697 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "s0510m2.mul",
+      "collection": "Khuddaka Nikāya Mūla",
+      "pali_title": "Apadānapāḷi 2 (अपदानपालि भाग २ - थेर एवं थेरी-अपदान)",
+      "paras": "7241 / 7241 (100.0%)",
+      "details": "Continuation of Thera-apadānas and all Therī-apadānas with 6,479 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "s0516m.mul",
+      "collection": "Khuddaka Nikāya Mūla",
+      "pali_title": "Paṭisambhidāmaggapāḷi (पटिसम्भिदामग्गपालि - प्रतिसंविदामार्ग)",
+      "paras": "2438 / 2438 (100.0%)",
+      "details": "Comprehensive analytical path of 4 Paṭisambhidā, 73 Ñāṇa, Ānāpānakathā, and Yuganaddha Vipassanā with 1,400 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "s0517m.mul",
+      "collection": "Khuddaka Nikāya Mūla",
+      "pali_title": "Nettippakaraṇapāḷi (नेत्तिप्पकरणपालि - नेत्तिप्रकरण)",
+      "paras": "2038 / 2038 (100.0%)",
+      "details": "Methodological guide of 16 Hāras and 5 Nayas for Sutta interpretation with 119 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "s0518m.nrf",
+      "collection": "Khuddaka Nikāya Anya",
+      "pali_title": "Milindapañhapāḷi (मिलिन्दपञ्हपालि - मिलिन्दप्रश्न)",
+      "paras": "2492 / 2492 (100.0%)",
+      "details": "Philosophical dialogues between King Milinda and Ven. Nāgasena on Anattā (chariot analogy), Kamma, and Nibbāna with 444 verse lines having rhyming Hindi dohas in verse."
     }
   ],
   "verification": {
