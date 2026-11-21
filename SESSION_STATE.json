@@ -3,11 +3,12 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T14:40:00+05:30",
+  "last_updated_at": "2026-11-21T14:42:00+05:30",
   "status": "RUNNING_NON_STOP",
+  "total_translated_paras": 1901,
   "overall_hierarchy": [
     "1. Sutta Piṭaka Mūla (100% COMPLETE - 1,629 / 1,629 paras)",
-    "2. Sutta Piṭaka Aṭṭhakathā (IN PROGRESS - 236 / 941 paras: Dhammapada-aṭṭhakathā 100% COMPLETE)",
+    "2. Sutta Piṭaka Aṭṭhakathā (IN PROGRESS - 272 / 941 paras: Dhammapada-aṭṭhakathā 100% COMPLETE, Sumaṅgalavilāsinī 36/705)",
     "3. Sutta Piṭaka Ṭīkā (QUEUED - 0 / 503 paras)",
     "4. Vinaya Piṭaka Mūla, Aṭṭhakathā & Ṭīkā (QUEUED - 254 paras Mūla)",
     "5. Abhidhamma Piṭaka (QUEUED)",
@@ -18,9 +19,9 @@
     "book_id": "s0101a.att",
     "pali_title": "Sumaṅgalavilāsinī - Sīlakkhandhavagga-aṭṭhakathā (सुमङ्गलविलासिनी)",
     "total_paras": 705,
-    "completed_paras": 0,
-    "current_batch": "Batch 1 (paras 0 to 50)",
-    "batch_content": "Brahmajālasutta-aṭṭhakathā Nidānakathā & introductory commentary"
+    "completed_paras": 36,
+    "current_batch": "Batch 2 (paras 36 to 85)",
+    "batch_content": "Paṭhamamahāsaṅgītikathā (First Great Buddhist Council under Mahākassapa at Rājagaha)"
   },
   "what_did": [
     {
@@ -57,26 +58,63 @@
       "title": "Dhammapada-aṭṭhakathā (धम्मपद-अट्ठकथा)",
       "paras": "236 / 236 (100.0%) COMPLETE",
       "summary": "Complete Ganthārambhakathā (paras 0-25), Cakkhupālattheravatthu with Verse 1 commentary (paras 26-96), Maṭṭhakuṇḍalīvatthu with Verse 2 commentary (paras 97-205), Tissattheravatthu with Verses 3-4 commentary (paras 206-228), and Kāḷayakkhinīvatthu with Verse 5 commentary (paras 229-235)."
+    },
+    {
+      "step": 6,
+      "book": "s0101a.att",
+      "title": "Sumaṅgalavilāsinī Batch 1",
+      "paras": "36 / 705 (paras 0 to 35)",
+      "summary": "Ganthārambhakathā (paras 0-35 with 16 opening gāthās, Mahāvihāra tradition, Visuddhimagga cross-references)."
+    },
+    {
+      "step": 7,
+      "infra": "Deployment Automation",
+      "summary": "Configured GitHub Pages automated deployment (.github/workflows/deploy-pages.yml) and Cloudflare Pages deployment (.github/workflows/deploy-cloudflare.yml), plus web/public/_redirects for SPA routing."
     }
   ],
   "what_to_do": [
     {
       "priority": 1,
-      "task": "Translate Sīlakkhandhavagga-aṭṭhakathā (Sumaṅgalavilāsinī `s0101a.att` - 705 paras)",
-      "details": "Brahmajālasutta-aṭṭhakathā (Nidānakathā, Cūḷasīla, Majjhimasīla, Mahāsīla, 62 Diṭṭhis), Sāmaññaphalasutta-aṭṭhakathā, Ambaṭṭhasutta-aṭṭhakathā."
+      "task": "Translate Sumaṅgalavilāsinī Batch 2 (paras 36 to 85)",
+      "details": "Nidānakathā & Paṭhamamahāsaṅgītikathā: Subhadda's ill-timed words after Parinibbāna, Mahākassapa's assembly of 500 Arahants, selection of Rājagaha, King Ajātasattu's construction of Sattapaṇṇi cave hall."
     },
     {
       "priority": 2,
+      "task": "Translate Sumaṅgalavilāsinī Batch 3 (paras 86 to 196)",
+      "details": "Chanting of Vinaya by Upāli Thera, chanting of Dhamma by Ānanda Thera, classification into 5 Nikāyas."
+    },
+    {
+      "priority": 3,
+      "task": "Translate Sumaṅgalavilāsinī Batch 4 (paras 197 to 320)",
+      "details": "Brahmajālasutta Commentary: Paribbājakakathāvaṇṇanā."
+    },
+    {
+      "priority": 4,
+      "task": "Translate Sumaṅgalavilāsinī Batch 5 (paras 321 to 500)",
+      "details": "Cūḷasīlavaṇṇanā and Majjhimasīlavaṇṇanā."
+    },
+    {
+      "priority": 5,
+      "task": "Translate Sumaṅgalavilāsinī Batch 6 (paras 501 to 634)",
+      "details": "Mahāsīlavaṇṇanā and the 62 Diṭṭhis Commentary."
+    },
+    {
+      "priority": 6,
+      "task": "Translate Sumaṅgalavilāsinī Batch 7 (paras 635 to 704)",
+      "details": "Sāmaññaphalasuttavaṇṇanā: Rājāmaccakathā, Jīvaka, and Sāmaññaphala commentary. (Completes 100% of Sumaṅgalavilāsinī 705 paras)!"
+    },
+    {
+      "priority": 7,
       "task": "Translate Sīlakkhandhavagga-ṭīkā (`s0101t.tik` - 503 paras)",
       "details": "Sub-commentary by Ācariya Dhammapāla."
     },
     {
-      "priority": 3,
+      "priority": 8,
       "task": "Translate Vinaya Piṭaka Mūla (`vin01m.mul` - 254 paras)",
       "details": "Pārājikapāḷi: Verañjakaṇḍa, Sudinna, and monastic rules."
     },
     {
-      "priority": 4,
+      "priority": 9,
       "task": "Translate Anya (`e0101n.mul` - 248 paras)",
       "details": "Visuddhimagga (Mātikā & Sīlaniddesa)."
     }
@@ -86,7 +124,6 @@
     "auto_export_cmd": "npm run build:web:app",
     "auto_test_cmd": "npm test",
     "git_push_enabled": true,
-    "github_pages_workflow": ".github/workflows/deploy-pages.yml",
-    "cloudflare_pages_workflow": ".github/workflows/deploy-cloudflare.yml"
+    "cron_active": true
   }
 }
