@@ -4,7 +4,7 @@
  *  - NativeSource: the engine compiled into the Android / iOS app, reached through the native bridge
  * The front door (Api) adds a small LRU cache, request de-duplication and the SSR prefill.
  */
-import type { DictResult, Dict, Entity, EntityInfo, EntityType, FtsResult, LegacyTarget, Link, MentionRef, Meta, NodeInfo, ParaName, TextChunk, TitleHit, TNode, Gloss, UnitSetting, TranslationChunk, Translation } from './types'
+import type { DictResult, Dict, Entity, EntityInfo, EntityType, FtsResult, LegacyTarget, Link, MentionRef, Meta, NodeInfo, ParaName, TextChunk, TitleHit, TNode, Gloss, UnitSetting, TranslationChunk, Translation, Book } from './types'
 
 export type Params = Record<string, string | number | boolean | undefined>
 
@@ -18,10 +18,11 @@ export interface DataSource {
 
 interface StaticStore {
   meta: Meta
+  books: Record<number, Book>
   childrenMap: Record<string, TNode[]>
   nodeInfos: Record<string, NodeInfo>
-  parasByNodeKey: Record<string, TextChunk['paras']>
-  translationsByNodeKey: Record<string, Translation[]>
+  parasByBook: Record<number, TextChunk['paras']>
+  translationsByBook: Record<number, Translation[]>
 }
 
 let staticStorePromise: Promise<StaticStore | null> | null = null
@@ -52,35 +53,41 @@ function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | u
   if (op === 'text') {
     const key = String(params.key || '')
     const node = store.nodeInfos[key]
-    const allParas = store.parasByNodeKey[key] || []
-    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : (node?.start ?? 0)
-    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : allParas.length
-    const to = from + count
+    if (!node || node.book < 0) return undefined
+    const book = store.books[node.book]
+    if (!book) return undefined
+    const allParas = store.parasByBook[node.book] || []
+
+    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : node.start
+    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : (node.end > from ? node.end - from : 150)
+    const to = Math.min(from + count, book.paraCount)
+
     const paras = allParas.filter(p => p.i >= from && p.i < to)
     return {
-      book: node?.book ?? 0,
+      book,
       from,
       to,
-      paras: paras.length > 0 ? paras : allParas,
-      nodes: node ? [node] : [],
+      paras,
+      nodes: [],
     } as T
   }
   if (op === 'translation') {
     const key = String(params.key || '')
-    const trs = store.translationsByNodeKey[key] || []
     const node = store.nodeInfos[key]
-    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : 0
-    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : trs.length
+    if (!node || node.book < 0) return undefined
+    const allTrs = store.translationsByBook[node.book] || []
+    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : node.start
+    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : 4
     const to = from + count
     const list = params.from !== undefined && Number(params.from) >= 0
-      ? trs.filter(t => t.i >= from && t.i < to)
-      : trs
+      ? allTrs.filter(t => t.i >= from && t.i < to)
+      : allTrs
     return {
       key,
-      book: node?.book ?? 0,
+      book: node.book,
       from,
       to,
-      translations: list.length > 0 ? list : trs,
+      translations: list,
     } as T
   }
   if (op === 'titles' || op === 'dicts' || op === 'links' || op === 'glosses' || op === 'mentions' || op === 'paranames') {

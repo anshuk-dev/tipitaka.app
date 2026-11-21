@@ -24,7 +24,21 @@ const meta = {
   hasDict: false,
 }
 
-// 2. Nodes & Children
+// 2. Books
+interface DbBook {
+  id: number
+  name: string
+  coll: string
+  title: string
+  root: string
+  paraCount: number
+}
+const books = db
+  .prepare('SELECT b.id, b.name, b.coll, b.title, n.key as root, b.para_count as paraCount FROM book b JOIN node n ON b.root_id = n.id')
+  .all() as DbBook[]
+const booksMap = Object.fromEntries(books.map(b => [b.id, b]))
+
+// 3. Nodes & Children
 interface DbNode {
   id: number
   key: string
@@ -110,8 +124,9 @@ for (const n of allNodes) {
   }
 }
 
-// 3. Paras per node
+// 4. Paras by book
 interface DbPara {
+  b: number
   i: number
   k: string
   r: string
@@ -119,18 +134,26 @@ interface DbPara {
   t: string
 }
 
-const parasByNodeKey: Record<string, DbPara[]> = {}
+const parasByBook: Record<number, { i: number; k: string; r: string; n?: string; t: string }[]> = {}
+for (const b of books) parasByBook[b.id] = []
+
 const allParas = db
-  .prepare('SELECT p.idx as i, n.key as k, p.rend as r, p.num as n, p.text as t FROM para p JOIN node n ON p.node_id = n.id ORDER BY p.book_id, p.idx')
+  .prepare('SELECT p.book_id as b, p.idx as i, n.key as k, p.rend as r, p.num as n, p.text as t FROM para p JOIN node n ON p.node_id = n.id ORDER BY p.book_id, p.idx')
   .all() as DbPara[]
 
 for (const p of allParas) {
-  if (!parasByNodeKey[p.k]) parasByNodeKey[p.k] = []
-  parasByNodeKey[p.k].push(p)
+  parasByBook[p.b].push({
+    i: p.i,
+    k: p.k,
+    r: p.r,
+    n: p.n || undefined,
+    t: p.t,
+  })
 }
 
-// 4. Translations per node
+// 5. Translations by book
 interface DbTranslation {
+  b: number
   i: number
   title: string
   t: string
@@ -139,20 +162,19 @@ interface DbTranslation {
   source: string
   translator: string
   conf: number
-  node_key: string
 }
 
-const translationsByNodeKey: Record<string, unknown[]> = {}
+const translationsByBook: Record<number, unknown[]> = {}
+for (const b of books) translationsByBook[b.id] = []
+
 const allTranslations = db
   .prepare(
-    'SELECT t.para_idx as i, t.title, t.text as t, t.verse as v, t.lang, t.source, t.translator, t.conf, n.key as node_key FROM translation t JOIN para p ON t.book_id = p.book_id AND t.para_idx = p.idx JOIN node n ON p.node_id = n.id',
+    'SELECT t.book_id as b, t.para_idx as i, t.title, t.text as t, t.verse as v, t.lang, t.source, t.translator, t.conf FROM translation t ORDER BY t.book_id, t.para_idx',
   )
   .all() as DbTranslation[]
 
 for (const tr of allTranslations) {
-  const k = tr.node_key
-  if (!translationsByNodeKey[k]) translationsByNodeKey[k] = []
-  translationsByNodeKey[k].push({
+  translationsByBook[tr.b].push({
     i: tr.i,
     title: tr.title,
     t: tr.t,
@@ -166,10 +188,11 @@ for (const tr of allTranslations) {
 
 const output = {
   meta,
+  books: booksMap,
   childrenMap,
   nodeInfos,
-  parasByNodeKey,
-  translationsByNodeKey,
+  parasByBook,
+  translationsByBook,
 }
 
 const publicDir = path.join(root, 'web/public')
@@ -180,4 +203,4 @@ fs.writeFileSync(outPath, JSON.stringify(output))
 
 const stat = fs.statSync(outPath)
 console.log(`Saved static-data.json to ${outPath} (${(stat.size / 1024 / 1024).toFixed(2)} MB)`)
-console.log(`Exported ${Object.keys(nodeInfos).length} nodes, ${allParas.length} paras, ${allTranslations.length} translations.`)
+console.log(`Exported ${Object.keys(nodeInfos).length} nodes, ${books.length} books, ${allParas.length} paras, ${allTranslations.length} translations.`)
