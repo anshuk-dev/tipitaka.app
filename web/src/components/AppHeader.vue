@@ -13,6 +13,13 @@
     </div>
     <!-- on phones the script is chosen in the settings -->
     <div class="hidden sm:block"><ScriptPicker /></div>
+    <!-- Quick Translation Toggle Button when in reader -->
+    <button v-if="route.name === 'read'" class="icon-btn flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg text-primary bg-primary-soft hover:bg-primary/20"
+      :class="{ 'ring-2 ring-primary': ui.panelOpen && ui.panelTab === 'trans' }"
+      :title="t('Hindi translation') || 'हिन्दी अनुवाद'" data-testid="header-translation-toggle" @click="toggleTranslation">
+      <IconLanguages class="h-4 w-4" />
+      <span class="hidden md:inline">हिन्दी अनुवाद</span>
+    </button>
     <RouterLink :to="{ name: 'bookmarks', params: { script } }" class="icon-btn hidden sm:inline-flex" :aria-label="t('Bookmarks')" :title="t('Bookmarks')">
       <IconBookmark class="h-5 w-5" />
     </RouterLink>
@@ -27,6 +34,7 @@
 import IconMenu from '~icons/lucide/menu'
 import IconBookmark from '~icons/lucide/bookmark'
 import IconSettings from '~icons/lucide/settings'
+import IconLanguages from '~icons/lucide/languages'
 import SearchBox from './SearchBox.vue'
 import ScriptPicker from './ScriptPicker.vue'
 import { computed } from 'vue'
@@ -41,6 +49,14 @@ const route = useRoute(), router = useRouter()
 function toggleSettings() {
   if (route.name === 'settings') router.push(ui.lastPage || { name: 'home', params: { script: script.value } })
   else router.push({ name: 'settings', params: { script: script.value } })
+}
+function toggleTranslation() {
+  if (ui.panelOpen && ui.panelTab === 'trans') {
+    ui.panelOpen = false
+  } else {
+    ui.panelTab = 'trans'
+    ui.panelOpen = true
+  }
 }
 const onSearchPage = computed(() => route.name === 'search' || route.name === 'titles' || route.name === 'dict')
 const logo = `${import.meta.env.BASE_URL}images/app-icon.png`
