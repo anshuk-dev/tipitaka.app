@@ -1,0 +1,109 @@
+{
+  "project": "Tipiṭaka Hindi Translation Project (VRI Style)",
+  "repository": "https://github.com/anshuk-dev/tipitaka.app",
+  "live_site": "https://anshuk-dev.github.io/tipitaka.app/",
+  "last_updated_at": "2026-11-21T10:27:00+05:30",
+  "status": "RUNNING_NON_STOP",
+  "overall_hierarchy": [
+    "1. Sutta Piṭaka Mūla (100% COMPLETE - 1,629 / 1,629 paras)",
+    "2. Sutta Piṭaka Aṭṭhakathā (IN PROGRESS - 51 / 941 paras)",
+    "3. Sutta Piṭaka Ṭīkā (QUEUED - 0 / 503 paras)",
+    "4. Vinaya Piṭaka Mūla, Aṭṭhakathā & Ṭīkā (QUEUED - 254 paras Mūla)",
+    "5. Abhidhamma Piṭaka (QUEUED)",
+    "6. Anya: Visuddhimagga (QUEUED - 248 paras)"
+  ],
+  "current_stage": {
+    "section": "Sutta Piṭaka Aṭṭhakathā",
+    "book_id": "s0502a.att",
+    "pali_title": "Dhammapada-aṭṭhakathā (धम्मपद-अट्ठकथा)",
+    "total_paras": 236,
+    "completed_paras": 51,
+    "current_batch": "Batch 2 (paras 51 to 96 - 46 paras)",
+    "batch_content": "Cakkhupālattheravatthu completion & word-by-word commentary on verse 1"
+  },
+  "what_did": [
+    {
+      "step": 1,
+      "book": "s0502m.mul",
+      "title": "Dhammapadapāḷi (धम्मपदपालि)",
+      "paras": "971 / 971 (100.0%)",
+      "summary": "All 26 Vaggas translated with dual-layer doha + prose in VRI style."
+    },
+    {
+      "step": 2,
+      "book": "s0101m.mul",
+      "title": "Sīlakkhandhavaggapāḷi (सीलक्खन्धवग्गपालि - दीघनिकाय)",
+      "paras": "406 / 406 (100.0%)",
+      "summary": "Complete Brahmajālasutta (paras 0-215), Sāmaññaphalasutta (paras 216-367), and Ambaṭṭhasutta (paras 368-405)."
+    },
+    {
+      "step": 3,
+      "book": "s0201m.mul",
+      "title": "Mūlapaṇṇāsapāḷi (मूलपण्णासपालि - मज्झिमनिकाय)",
+      "paras": "252 / 252 (100.0%)",
+      "summary": "Mūlapariyāyasutta (paras 0-53), Sabbāsavasutta (paras 54-93), Dhammadāyādasutta (paras 94-106), Bhayabheravasutta (paras 107-132), Anaṅgaṇasutta (paras 133-163), Ākaṅkheyyasutta (paras 164-186), Vatthasutta (paras 187-211), Sallekhasutta (paras 212-235), and Sammādiṭṭhisutta (paras 236-251)."
+    },
+    {
+      "step": 4,
+      "milestone": "SUTTA PIṬAKA MŪLA 100% COMPLETED",
+      "total_paras": 1629,
+      "git_commit": "b624fa2",
+      "pushed_to_remote": true
+    },
+    {
+      "step": 5,
+      "book": "s0502a.att",
+      "title": "Dhammapada-aṭṭhakathā Batch 1",
+      "paras": "51 / 236 (paras 0 to 50)",
+      "summary": "Ganthārambhakathā (paras 0-25 with 10 gāthās by Buddhaghosa & Thera Kumārakassapa request) + Cakkhupālattheravatthu Part 1 (paras 26-50 with Mahāpāla vow and steadfast verses 43-50)."
+    }
+  ],
+  "what_to_do": [
+    {
+      "priority": 1,
+      "task": "Execute Dhammapada-aṭṭhakathā Batch 2 (paras 51 to 96 - 46 paras)",
+      "details": "Cakkhupālattheravatthu Part 2: Third resolute verse (paras 51-54), doctor's abandonment (para 55), fourth verse (paras 56-57), simultaneous eye-loss and Arahantship (para 58), return to Sāvatthī with Sakka's magical shortening of the road (paras 59-80), Buddha's past-life discourse on caustic poison karma (paras 81-84), Mūla Verse 1 (paras 85-87), and word-by-word commentary on Verse 1 (paras 88-96)."
+    },
+    {
+      "priority": 2,
+      "task": "Execute Dhammapada-aṭṭhakathā Batch 3 (paras 97 to 150 - 54 paras)",
+      "details": "Maṭṭhakuṇḍalīvatthu Part 1: Adinnapubbaka the miser, Maṭṭhakuṇḍalī's illness and dying faith in the Buddha."
+    },
+    {
+      "priority": 3,
+      "task": "Execute Dhammapada-aṭṭhakathā Batch 4 (paras 151 to 205 - 55 paras)",
+      "details": "Maṭṭhakuṇḍalīvatthu Part 2: Celestial rebirth, father's weeping at tomb, debate, Buddha's utterance of Verse 2 ('Manopubbaṅgamā dhammā... tato naṃ sukhamanveti...'), and word-by-word commentary on Verse 2."
+    },
+    {
+      "priority": 4,
+      "task": "Execute Dhammapada-aṭṭhakathā Batch 5 (paras 206 to 235 - 30 paras)",
+      "details": "Tissattheravatthu (Verses 3-4 'Akkocchi maṃ avadhi maṃ...') and Kāḷayakkhinīvatthu (Verse 5 'Na hi verena verāni...'). Completes 100% of s0502a.att (236 paras)!"
+    },
+    {
+      "priority": 5,
+      "task": "Translate Sīlakkhandhavagga-aṭṭhakathā (Sumaṅgalavilāsinī `s0101a.att` - 705 paras)",
+      "details": "Brahmajālasutta-aṭṭhakathā, Sāmaññaphalasutta-aṭṭhakathā, Ambaṭṭhasutta-aṭṭhakathā."
+    },
+    {
+      "priority": 6,
+      "task": "Translate Sīlakkhandhavagga-ṭīkā (`s0101t.tik` - 503 paras)",
+      "details": "Sub-commentary by Ācariya Dhammapāla."
+    },
+    {
+      "priority": 7,
+      "task": "Translate Vinaya Piṭaka Mūla (`vin01m.mul` - 254 paras)",
+      "details": "Pārājikapāḷi: Sudinna, Verañjakaṇḍa, and the Vinaya codes."
+    },
+    {
+      "priority": 8,
+      "task": "Translate Anya (`e0101n.mul` - 248 paras)",
+      "details": "Visuddhimagga (Mātikā & Sīlaniddesa)."
+    }
+  ],
+  "continuous_engine": {
+    "auto_rebuild_cmd": "npm run build:fixture",
+    "auto_export_cmd": "npm run export:static",
+    "auto_test_cmd": "npm test",
+    "git_push_enabled": true
+  }
+}
