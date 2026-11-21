@@ -1,5 +1,9 @@
 # Tipiṭaka.app – Chaṭṭha Saṅgāyana Tipiṭaka
 
+- **Live Web App:** [https://anshuk-dev.github.io/tipitaka.app/](https://anshuk-dev.github.io/tipitaka.app/)
+- **GitHub Repository:** [https://github.com/anshuk-dev/tipitaka.app](https://github.com/anshuk-dev/tipitaka.app)
+- **Upstream Repository:** [https://github.com/pnfo/tipitaka.app](https://github.com/pnfo/tipitaka.app)
+
 The Pāḷi Tipiṭaka with aṭṭhakathā, ṭīkā and other texts (VRI Chaṭṭha Saṅgāyana edition) in 22 scripts, with
 full text search, title search, tap-to-lookup dictionaries (Digital Pāḷi Dictionary and 23 others) and a
 mūla / commentary parallel view. The same code runs the website (https://tipitaka.app), the desktop apps and the
