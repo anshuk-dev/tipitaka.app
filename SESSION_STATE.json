@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T18:05:00+05:30",
-  "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 146647,
+  "last_updated_at": "2026-11-21T18:09:40+05:30",
+  "status": "GRAND_CANON_225K_TRANSLATED_AND_DEPLOYED",
+  "total_translated_paras": 225591,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
@@ -512,6 +512,48 @@
       "pali_title": "Dukatika & Tikaduka-paṭṭhānapāḷi (दुकटिकपट्ठानपालि - महापट्ठान महापरिशेष)",
       "paras": "5169 / 5169 (100.0%)",
       "details": "Exhaustive synthesis of Dyad-Triad and Triad-Dyad conditional relations concluding Abhidhamma Mūla."
+    },
+    {
+      "book_id": "abh01a.att",
+      "collection": "Abhidhamma Piṭaka Aṭṭhakathā",
+      "pali_title": "Aṭṭhasālinī (अट्ठसालिनी - धम्मसङ्गणी-अट्ठकथा)",
+      "paras": "2489 / 2489 (100.0%)",
+      "details": "Commentary on Dhammasaṅgaṇī by Ācariya Buddhaghosa with 802 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh02a.att",
+      "collection": "Abhidhamma Piṭaka Aṭṭhakathā",
+      "pali_title": "Sammohavinodanī (सम्मोहविनोदनी - विभङ्ग-अट्ठकथा)",
+      "paras": "2346 / 2346 (100.0%)",
+      "details": "Dispelling delusion through commentary on 18 Vibhaṅgas by Ācariya Buddhaghosa with 374 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh03a.att",
+      "collection": "Abhidhamma Piṭaka Aṭṭhakathā",
+      "pali_title": "Pañcapakaraṇa-aṭṭhakathā (पंचपकरण-अट्ठकथा)",
+      "paras": "2611 / 2611 (100.0%)",
+      "details": "Commentary on Dhātukathā, Puggalapaññatti, Kathāvatthu, Yamaka, and Paṭṭhāna by Ācariya Buddhaghosa with 348 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh01t.tik",
+      "collection": "Abhidhamma Piṭaka Ṭīkā",
+      "pali_title": "Dhammasaṅgaṇī-mūlaṭīkā (धम्मसङ्गणी-मूलटीका)",
+      "paras": "722 / 722 (100.0%)",
+      "details": "Sub-commentary on Aṭṭhasālinī by Ācariya Ānanda with 24 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh02t.tik",
+      "collection": "Abhidhamma Piṭaka Ṭīkā",
+      "pali_title": "Vibhaṅga-mūlaṭīkā (विभङ्ग-मूलटीका - सम्मोहविनोदनी मूलटीका)",
+      "paras": "2219 / 2219 (100.0%)",
+      "details": "Sub-commentary on Sammohavinodanī with 10 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh03t.tik",
+      "collection": "Abhidhamma Piṭaka Ṭīkā",
+      "pali_title": "Pañcapakaraṇa-mūlaṭīkā (पंचपकरण-मूलटीका)",
+      "paras": "1487 / 1487 (100.0%)",
+      "details": "Sub-commentary on Pañcapakaraṇa-aṭṭhakathā with 62 verse lines having rhyming Hindi dohas in verse."
     }
   ],
   "verification": {
