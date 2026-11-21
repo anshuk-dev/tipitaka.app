@@ -53,6 +53,10 @@ export function importTranslations(db: Database.Database, dir: string) {
           if (bId === undefined && typeof bookRef === 'string') {
             bId = booksByName.get(bookRef.toLowerCase())
           }
+          if (bId === undefined && typeof bookRef === 'string') {
+            const stem = bookRef.toLowerCase().replace(/\..*$/, '')
+            bId = booksByName.get(stem)
+          }
           if (bId === undefined) continue
           const textContent = rec.text ?? (rec as any).translation ?? ''
           if (!textContent) continue
