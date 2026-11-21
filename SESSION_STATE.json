@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T17:50:00+05:30",
+  "last_updated_at": "2026-11-21T17:53:00+05:30",
   "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 45157,
+  "total_translated_paras": 55040,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
