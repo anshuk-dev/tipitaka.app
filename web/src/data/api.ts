@@ -74,14 +74,13 @@ function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | u
   if (op === 'translation') {
     const key = String(params.key || '')
     const node = store.nodeInfos[key]
-    if (!node || node.book < 0) return undefined
+    if (!node || node.book < 0) return { key, book: 0, from: 0, to: 0, translations: [] } as unknown as T
     const allTrs = store.translationsByBook[node.book] || []
-    const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : node.start
-    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : 4
-    const to = from + count
-    const list = params.from !== undefined && Number(params.from) >= 0
-      ? allTrs.filter(t => t.i >= from && t.i < to)
-      : allTrs
+    const hasFrom = params.from !== undefined && Number(params.from) >= 0
+    const from = hasFrom ? Number(params.from) : node.start
+    const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : (node.end > from ? node.end - from : 150)
+    const to = hasFrom ? from + count : node.end
+    const list = allTrs.filter(t => t.i >= from && t.i < to)
     return {
       key,
       book: node.book,
