@@ -101,11 +101,11 @@ function getXmlParas(book: string) {
   if (!cleanBook.endsWith('.xml')) {
     if (cleanBook.includes('.')) {
       cleanBook = cleanBook + '.xml'
-    } else if (cleanBook.endsWith('a')) {
+    } else if (/a\d*$/.test(cleanBook)) {
       cleanBook = cleanBook + '.att.xml'
-    } else if (cleanBook.endsWith('t')) {
+    } else if (/t\d*$/.test(cleanBook)) {
       cleanBook = cleanBook + '.tik.xml'
-    } else if (cleanBook.endsWith('m')) {
+    } else if (/m\d*$/.test(cleanBook)) {
       cleanBook = cleanBook + '.mul.xml'
     } else {
       cleanBook = cleanBook + '.mul.xml'
@@ -115,10 +115,16 @@ function getXmlParas(book: string) {
 
   let filePath = path.join(xmlDir, cleanBook)
   if (!fs.existsSync(filePath)) {
-    const nrfPath = filePath.replace(/\.mul\.xml$/, '.nrf.xml')
-    if (fs.existsSync(nrfPath)) {
-      filePath = nrfPath
-    } else {
+    const base = cleanBook.replace(/\.(mul|att|tik|nrf)\.xml$/, '')
+    for (const ext of ['.att.xml', '.tik.xml', '.mul.xml', '.nrf.xml']) {
+      const altPath = path.join(xmlDir, base + ext)
+      if (fs.existsSync(altPath)) {
+        filePath = altPath
+        cleanBook = base + ext
+        break
+      }
+    }
+    if (!fs.existsSync(filePath)) {
       return null
     }
   }

@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T17:59:30+05:30",
+  "last_updated_at": "2026-11-21T18:02:40+05:30",
   "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 94110,
+  "total_translated_paras": 104667,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
@@ -421,6 +421,41 @@
       "pali_title": "Milindapañhapāḷi (मिलिन्दपञ्हपालि - मिलिन्दप्रश्न)",
       "paras": "2492 / 2492 (100.0%)",
       "details": "Philosophical dialogues between King Milinda and Ven. Nāgasena on Anattā (chariot analogy), Kamma, and Nibbāna with 444 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh01m.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Dhammasaṅgaṇīpāḷi (धम्मसङ्गणीपालि)",
+      "paras": "2436 / 2436 (100.0%)",
+      "details": "22 Tika and 100 Duka Mātika, Cittuppādakaṇḍa (89/121 Cittas, 52 Cetasikas), Rūpakaṇḍa, and Nikkhepakaṇḍa."
+    },
+    {
+      "book_id": "abh02m.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Vibhaṅgapāḷi (विभङ्गपालि)",
+      "paras": "3427 / 3427 (100.0%)",
+      "details": "18 Vibhaṅgas (Khandha, Āyatana, Dhātu, Sacca, Indriya, Paṭiccasamuppāda, Satipaṭṭhāna, Bojjhaṅga, Maggaṅga, etc.) with 13 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh03m1.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Dhātukathāpāḷi (धातुकथापालि)",
+      "paras": "673 / 673 (100.0%)",
+      "details": "14 Nayas on classification, association, and dissociation of dhammas with Khandhas, Āyatanas, and Dhātus with 60 verse lines having rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "abh03m2.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Puggalapaññattipāḷi (पुग्गलपञ्ञत्तिपालि)",
+      "paras": "561 / 561 (100.0%)",
+      "details": "10 Mātikas analyzing human types according to spiritual attainment (Sotāpanna, Sakadāgāmī, Anāgāmī, Arahant, Sammāsambuddha)."
+    },
+    {
+      "book_id": "abh03m3.mul",
+      "collection": "Abhidhamma Piṭaka Mūla",
+      "pali_title": "Kathāvatthupāḷi (कथावत्थुपालि)",
+      "paras": "3460 / 3460 (100.0%)",
+      "details": "216 doctrinal controversies refuted by Ven. Moggaliputtatissa at 3rd Council with 237 verse lines having rhyming Hindi dohas in verse."
     }
   ],
   "verification": {
