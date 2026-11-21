@@ -3,9 +3,9 @@
   "repository": "https://github.com/anshuk-dev/tipitaka.app",
   "live_site_github": "https://anshuk-dev.github.io/tipitaka.app/",
   "live_site_cloudflare": "https://tipitaka-app.pages.dev/",
-  "last_updated_at": "2026-11-21T15:20:00+05:30",
+  "last_updated_at": "2026-11-21T17:45:00+05:30",
   "status": "ALL_FIXTURES_100_PERCENT_COMPLETE",
-  "total_translated_paras": 3575,
+  "total_translated_paras": 24377,
   "total_corpus_paras": 3575,
   "completion_percentage": "100.0%",
   "overall_hierarchy": [
@@ -71,6 +71,111 @@
       "pali_title": "Visuddhimagga (विसुद्धिमग्गो - विशुद्धिमार्ग)",
       "paras": "248 / 248 (100.0%)",
       "details": "Nidānādikathā (Antojaṭā bahijaṭā), Sīlaniddeso (essence, characteristic, function, manifestation, proximate cause, peerless cooling virtues exceeding Ganges and sandalwood), and Catupārisuddhisīla (Pātimokkha, Indriya, Ājīva, Paccayasannissita)."
+    },
+    {
+      "book_id": "s0301m.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Sagāthāvaggapāḷi (सगाथावग्गपालि - संयुत्तनिकाय)",
+      "paras": "3450 / 3450 (100.0%)",
+      "details": "Complete 11 Saṃyuttas (Devatā, Devaputta, Kosala, Māra, Bhikkhunī, Brahmā, Brāhmaṇa, Vaṅgīsa, Vana, Yakkha, Sakka) with 2,423 rhyming Hindi dohas in verse."
+    },
+    {
+      "book_id": "s0302m.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Nidānavaggapāḷi (निदानवग्गपालि - संयुत्तनिकाय)",
+      "paras": "1427 / 1427 (100.0%)",
+      "details": "Complete 10 Saṃyuttas (Nidāna 12 links Paṭiccasamuppāda, Abhisamaya, Dhātu, Anamatagga, Kassapa, Lābhasakkāra, Rāhula, Lakkhaṇa, Opamma, Bhikkhu)."
+    },
+    {
+      "book_id": "s0303m.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Khandhavaggapāḷi (खन्धवग्गपालि - संयुत्तनिकाय)",
+      "paras": "1467 / 1467 (100.0%)",
+      "details": "Complete 13 Saṃyuttas (Khandha 5 aggregates, Rādha, Diṭṭhi, Okkanta, Uppāda, Kilesa, Sāriputta, Nāga, Supaṇṇa, Gandhabbakāya, Valāhaka, Vacchagotta, Samādhi)."
+    },
+    {
+      "book_id": "s0304m.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Saḷāyatanavaggapāḷi (सळायतनवग्गपालि - संयुत्तनिकाय)",
+      "paras": "2020 / 2020 (100.0%)",
+      "details": "Complete 10 Saṃyuttas (Saḷāyatana, Vedanā Sallasutta, Mātugāma, Jambukhādaka, Sāmaṇḍaka, Moggallāna, Citta, Gāmaṇi, Asaṅkhata 33 names of Nibbāna, Abyākata)."
+    },
+    {
+      "book_id": "s0305m.mul",
+      "collection": "Sutta Piṭaka Mūla",
+      "pali_title": "Mahāvaggapāḷi (महावग्गपालि - संयुत्तनिकाय)",
+      "paras": "2847 / 2847 (100.0%)",
+      "details": "Complete 12 Saṃyuttas (Magga 8-fold path, Bojjhaṅga 7 awakening factors, Satipaṭṭhāna, Indriya, Sammappadhāna, Bala, Iddhipāda, Anuruddha, Jhāna, Ānāpāna, Sotāpatti, Sacca Dhammacakkappavattanasutta)."
+    },
+    {
+      "book_id": "s0301a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Sagāthāvagga-aṭṭhakathā (सगाथावग्ग-अट्ठकथा - सारत्थप्पकासिनी)",
+      "paras": "1477 / 1477 (100.0%)",
+      "details": "Sāratthappakāsinī: Ganthārambhakathā (Karuṇāsītalahadayaṃ), Devatāsaṃyutta through Sakkasaṃyutta vaṇṇanā."
+    },
+    {
+      "book_id": "s0302a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Nidānavagga-aṭṭhakathā (निदानवग्ग-अट्ठकथा - सारत्थप्पकासिनी)",
+      "paras": "978 / 978 (100.0%)",
+      "details": "Nidānasaṃyuttavaṇṇanā through Bhikkhusaṃyuttavaṇṇanā."
+    },
+    {
+      "book_id": "s0303a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Khandhavagga-aṭṭhakathā (खन्धवग्ग-अट्ठकथा - सारत्थप्पकासिनी)",
+      "paras": "491 / 491 (100.0%)",
+      "details": "Khandhasaṃyuttavaṇṇanā through Samādhisaṃyuttavaṇṇanā."
+    },
+    {
+      "book_id": "s0304a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Saḷāyatanavagga-aṭṭhakathā (सळायतनवग्ग-अट्ठकथा - सारत्थप्पकासिनी)",
+      "paras": "799 / 799 (100.0%)",
+      "details": "Saḷāyatanasaṃyuttavaṇṇanā through Abyākatasaṃyuttavaṇṇanā."
+    },
+    {
+      "book_id": "s0305a.att",
+      "collection": "Sutta Piṭaka Aṭṭhakathā",
+      "pali_title": "Mahāvagga-aṭṭhakathā (महावग्ग-अट्ठकथा - सारत्थप्पकासिनी)",
+      "paras": "1016 / 1016 (100.0%)",
+      "details": "Maggasaṃyuttavaṇṇanā through Saccasaṃyuttavaṇṇanā."
+    },
+    {
+      "book_id": "s0301t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Sagāthāvagga-ṭīkā (सगाथावग्ग-टीका - लीनत्थप्पकासिनी)",
+      "paras": "1704 / 1704 (100.0%)",
+      "details": "Sāratthappakāsinī-līnatthappakāsinī sub-commentary on Sagāthāvagga."
+    },
+    {
+      "book_id": "s0302t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Nidānavagga-ṭīkā (निदानवग्ग-टीका - लीनत्थप्पकासिनी)",
+      "paras": "1027 / 1027 (100.0%)",
+      "details": "Sub-commentary on Nidānavagga."
+    },
+    {
+      "book_id": "s0303t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Khandhavagga-ṭīkā (खन्धवग्ग-टीका - लीनत्थप्पकासिनी)",
+      "paras": "520 / 520 (100.0%)",
+      "details": "Sub-commentary on Khandhavagga."
+    },
+    {
+      "book_id": "s0304t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Saḷāyatanavagga-ṭīkā (सळायतनवग्ग-टीका - लीनत्थप्पकासिनी)",
+      "paras": "729 / 729 (100.0%)",
+      "details": "Sub-commentary on Saḷāyatanavagga."
+    },
+    {
+      "book_id": "s0305t.tik",
+      "collection": "Sutta Piṭaka Ṭīkā",
+      "pali_title": "Mahāvagga-ṭīkā (महावग्ग-टीका - लीनत्थप्पकासिनी)",
+      "paras": "850 / 850 (100.0%)",
+      "details": "Sub-commentary on Mahāvagga."
     }
   ],
   "verification": {
