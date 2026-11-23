@@ -28,3 +28,4 @@ dist-desktop
 /web/public/sitemap*
 /server/testdata/fuzz
 /server/mobile/build
+__pycache__/

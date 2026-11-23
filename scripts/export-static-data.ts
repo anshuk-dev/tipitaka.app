@@ -5,6 +5,19 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
+const outPath = path.join(root, 'web/public/static-data.json')
+
+// If running in CI without the full db/text.db, preserve the complete committed static-data.json
+if (!fs.existsSync(path.join(root, 'db/text.db')) && fs.existsSync(outPath)) {
+  try {
+    const existing = JSON.parse(fs.readFileSync(outPath, 'utf8'))
+    const nodeCount = Object.keys(existing.nodeInfos || {}).length
+    if (nodeCount > 1000) {
+      console.log(`Preserving complete static-data.json (${nodeCount} nodes) on CI runner without db/text.db.`)
+      process.exit(0)
+    }
+  } catch {}
+}
 
 const dbPath = fs.existsSync(path.join(root, 'db/text.db'))
   ? path.join(root, 'db/text.db')
@@ -106,19 +119,17 @@ for (const n of allNodes) {
     next: n.next || undefined,
   }
 
-  if (n.parent < 0) {
+  const parentNode = n.parent >= 0 ? nodeById.get(n.parent) : null
+  if (n.parent < 0 || !parentNode) {
     childrenMap[''].push(nodeClean)
   } else {
-    const parentNode = nodeById.get(n.parent)
-    if (parentNode) {
-      if (!childrenMap[parentNode.key]) childrenMap[parentNode.key] = []
-      childrenMap[parentNode.key].push(nodeClean)
-    }
+    if (!childrenMap[parentNode.key]) childrenMap[parentNode.key] = []
+    childrenMap[parentNode.key].push(nodeClean)
   }
 
   nodeInfos[n.key] = {
     ...nodeClean,
-    path: getPath(n),
+    parent: parentNode ? parentNode.key : undefined,
     commentary: [],
     paraCount: n.end - n.start,
   }
@@ -186,19 +197,28 @@ for (const tr of allTranslations) {
   })
 }
 
+const publicDir = path.join(root, 'web/public')
+if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true })
+
+const booksDir = path.join(publicDir, 'books')
+if (!fs.existsSync(booksDir)) fs.mkdirSync(booksDir, { recursive: true })
+
+console.log(`Writing per-book files to ${booksDir}...`)
+for (const b of books) {
+  fs.writeFileSync(path.join(booksDir, `${b.id}-text.json`), JSON.stringify(parasByBook[b.id]))
+  fs.writeFileSync(path.join(booksDir, `${b.id}-trans.json`), JSON.stringify(translationsByBook[b.id]))
+}
+
+// Keep parasByBook and translationsByBook on demand in static-data.json so the bundle stays strictly under 25 MB (Cloudflare & GitHub limit)
 const output = {
   meta,
   books: booksMap,
   childrenMap,
   nodeInfos,
-  parasByBook,
-  translationsByBook,
+  parasByBook: {},
+  translationsByBook: {},
 }
 
-const publicDir = path.join(root, 'web/public')
-if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true })
-
-const outPath = path.join(publicDir, 'static-data.json')
 fs.writeFileSync(outPath, JSON.stringify(output))
 
 const stat = fs.statSync(outPath)

@@ -21,12 +21,41 @@ export interface TranslationRecord {
  */
 export function importTranslations(db: Database.Database, dir: string) {
   if (!fs.existsSync(dir)) return 0
-  const booksByName = new Map<string, number>()
-  for (const b of db.prepare('SELECT id, name FROM book').all() as { id: number; name: string }[]) {
-    booksByName.set(b.name, b.id)
-    // also stem: e.g. 's0502m' -> id
-    const stem = b.name.replace(/\..*$/, '')
-    booksByName.set(stem, b.id)
+
+  interface FileTarget {
+    bookId: number
+    offset: number
+  }
+  const fileTargetMap = new Map<string, FileTarget>()
+
+  // Map each book and its files (handling multi-file books and offsets)
+  const books = db.prepare('SELECT id, name, files FROM book').all() as { id: number; name: string; files: string }[]
+  for (const b of books) {
+    const flist = b.files.split(' ').filter(Boolean)
+    let offset = 0
+    for (const f of flist) {
+      const stemWithExt = f.replace(/\.xml$/, '')
+      const stem = stemWithExt.replace(/\..*$/, '')
+      fileTargetMap.set(stemWithExt.toLowerCase(), { bookId: b.id, offset })
+      fileTargetMap.set(stem.toLowerCase(), { bookId: b.id, offset })
+
+      // Determine paragraph count for offset calculation from hi translation file
+      const candidatePaths = [
+        path.join(dir, 'hi', `${stem}.jsonl`),
+        path.join(dir, `${stem}.jsonl`),
+        path.join(dir, 'hi', `${stemWithExt}.jsonl`),
+        path.join(dir, `${stemWithExt}.jsonl`),
+      ]
+      for (const cp of candidatePaths) {
+        if (fs.existsSync(cp)) {
+          const lines = fs.readFileSync(cp, 'utf-8').split('\n').filter(Boolean)
+          offset += lines.length
+          break
+        }
+      }
+    }
+    fileTargetMap.set(b.name.toLowerCase(), { bookId: b.id, offset: 0 })
+    fileTargetMap.set(b.name.replace(/\..*$/, '').toLowerCase(), { bookId: b.id, offset: 0 })
   }
 
   const ins = db.prepare(`
@@ -42,27 +71,35 @@ export function importTranslations(db: Database.Database, dir: string) {
     if (!fs.existsSync(lpath)) continue
     for (const file of fs.readdirSync(lpath).filter(f => f.endsWith('.jsonl'))) {
       const fullPath = path.join(lpath, file)
+      const fileStem = file.replace(/\.jsonl$/, '').toLowerCase()
       const lines = fs.readFileSync(fullPath, 'utf-8').split('\n').filter(Boolean)
       for (const line of lines) {
         try {
           const rec: TranslationRecord = JSON.parse(line)
           const bookRef = rec.book ?? rec.book_id
-          const paraRef = rec.para ?? rec.para_idx
-          if (paraRef === undefined) continue
-          let bId = typeof bookRef === 'number' ? bookRef : (bookRef ? booksByName.get(bookRef) : undefined)
-          if (bId === undefined && typeof bookRef === 'string') {
-            bId = booksByName.get(bookRef.toLowerCase())
+          const rawPara = rec.para ?? rec.para_idx
+          if (rawPara === undefined) continue
+
+          let target: FileTarget | undefined
+          if (typeof bookRef === 'number') {
+            target = { bookId: bookRef, offset: 0 }
+          } else if (typeof bookRef === 'string') {
+            const bClean = bookRef.toLowerCase()
+            const bStem = bClean.replace(/\..*$/, '')
+            target = fileTargetMap.get(bClean) ?? fileTargetMap.get(bStem)
           }
-          if (bId === undefined && typeof bookRef === 'string') {
-            const stem = bookRef.toLowerCase().replace(/\..*$/, '')
-            bId = booksByName.get(stem)
+          if (!target) {
+            target = fileTargetMap.get(fileStem) ?? fileTargetMap.get(fileStem.replace(/\..*$/, ''))
           }
-          if (bId === undefined) continue
+          if (!target) continue
+
+          const finalParaIdx = rawPara + target.offset
           const textContent = rec.text ?? (rec as any).translation ?? ''
           if (!textContent) continue
+
           ins.run(
-            bId,
-            paraRef,
+            target.bookId,
+            finalParaIdx,
             rec.lang ?? lang ?? 'hi',
             rec.title ?? '',
             textContent,

@@ -38,7 +38,7 @@ function getStaticStore(base: string): Promise<StaticStore | null> {
   return staticStorePromise
 }
 
-function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | undefined {
+async function resolveStatic<T>(store: StaticStore, op: string, params: Params, base = ''): Promise<T | undefined> {
   if (op === 'meta') {
     return store.meta as T
   }
@@ -48,7 +48,30 @@ function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | u
   }
   if (op === 'node') {
     const key = String(params.key || '')
-    return (store.nodeInfos[key] || null) as T
+    const node = store.nodeInfos[key]
+    if (!node) return null as T
+    if (!node.path) {
+      const pathArr = []
+      let currParentKey = (node as any).parent
+      while (currParentKey && store.nodeInfos[currParentKey]) {
+        const p = store.nodeInfos[currParentKey]
+        pathArr.unshift({
+          key: p.key,
+          book: p.book,
+          kind: p.kind,
+          coll: p.coll,
+          rend: p.rend,
+          title: p.title,
+          start: p.start,
+          end: p.end,
+          depth: p.depth,
+          children: p.children,
+        })
+        currParentKey = (p as any).parent
+      }
+      node.path = pathArr
+    }
+    return node as T
   }
   if (op === 'text') {
     const key = String(params.key || '')
@@ -56,8 +79,17 @@ function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | u
     if (!node || node.book < 0) return undefined
     const book = store.books[node.book]
     if (!book) return undefined
-    const allParas = store.parasByBook[node.book] || []
 
+    if (!store.parasByBook[node.book] || store.parasByBook[node.book].length === 0) {
+      const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
+      const url = cleanBase ? `${cleanBase}/books/${node.book}-text.json` : `books/${node.book}-text.json`
+      const fetched = await fetch(url).then(r => (r.ok ? r.json() : null)).catch(() => null)
+      if (fetched) {
+        store.parasByBook[node.book] = fetched
+      }
+    }
+
+    const allParas = store.parasByBook[node.book] || []
     const from = params.from !== undefined && Number(params.from) >= 0 ? Number(params.from) : node.start
     const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : (node.end > from ? node.end - from : 150)
     const to = Math.min(from + count, book.paraCount)
@@ -75,6 +107,16 @@ function resolveStatic<T>(store: StaticStore, op: string, params: Params): T | u
     const key = String(params.key || '')
     const node = store.nodeInfos[key]
     if (!node || node.book < 0) return { key, book: 0, from: 0, to: 0, translations: [] } as unknown as T
+
+    if (!store.translationsByBook[node.book] || store.translationsByBook[node.book].length === 0) {
+      const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
+      const url = cleanBase ? `${cleanBase}/books/${node.book}-trans.json` : `books/${node.book}-trans.json`
+      const fetched = await fetch(url).then(r => (r.ok ? r.json() : null)).catch(() => null)
+      if (fetched) {
+        store.translationsByBook[node.book] = fetched
+      }
+    }
+
     const allTrs = store.translationsByBook[node.book] || []
     const hasFrom = params.from !== undefined && Number(params.from) >= 0
     const from = hasFrom ? Number(params.from) : node.start
@@ -130,7 +172,7 @@ export class HttpSource implements DataSource {
 
     const store = await getStaticStore(this.base)
     if (store) {
-      const resolved = resolveStatic<T>(store, op, params)
+      const resolved = await resolveStatic<T>(store, op, params, this.base)
       if (resolved !== undefined) return resolved
     }
 
