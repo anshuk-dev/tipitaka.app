@@ -30,7 +30,8 @@ let staticStorePromise: Promise<StaticStore | null> | null = null
 function getStaticStore(base: string): Promise<StaticStore | null> {
   if (!staticStorePromise) {
     const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
-    const url = cleanBase ? `${cleanBase}/static-data.json` : 'static-data.json'
+    const v = contentVersion() || Date.now().toString()
+    const url = cleanBase ? `${cleanBase}/static-data.json?v=${v}` : `static-data.json?v=${v}`
     staticStorePromise = fetch(url)
       .then(r => (r.ok ? r.json() : null))
       .catch(() => null)
@@ -82,7 +83,8 @@ async function resolveStatic<T>(store: StaticStore, op: string, params: Params, 
 
     if (!store.parasByBook[node.book] || store.parasByBook[node.book].length === 0) {
       const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
-      const url = cleanBase ? `${cleanBase}/books/${node.book}-text.json` : `books/${node.book}-text.json`
+      const v = contentVersion() || Date.now().toString()
+      const url = cleanBase ? `${cleanBase}/books/${node.book}-text.json?v=${v}` : `books/${node.book}-text.json?v=${v}`
       const fetched = await fetch(url).then(r => (r.ok ? r.json() : null)).catch(() => null)
       if (fetched) {
         store.parasByBook[node.book] = fetched
@@ -110,7 +112,8 @@ async function resolveStatic<T>(store: StaticStore, op: string, params: Params, 
 
     if (!store.translationsByBook[node.book] || store.translationsByBook[node.book].length === 0) {
       const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
-      const url = cleanBase ? `${cleanBase}/books/${node.book}-trans.json` : `books/${node.book}-trans.json`
+      const v = contentVersion() || Date.now().toString()
+      const url = cleanBase ? `${cleanBase}/books/${node.book}-trans.json?v=${v}` : `books/${node.book}-trans.json?v=${v}`
       const fetched = await fetch(url).then(r => (r.ok ? r.json() : null)).catch(() => null)
       if (fetched) {
         store.translationsByBook[node.book] = fetched
