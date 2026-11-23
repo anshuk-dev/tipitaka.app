@@ -52,14 +52,6 @@ function toggleSettings() {
   if (route.name === 'settings') router.push(ui.lastPage || { name: 'home', params: { script: script.value } })
   else router.push({ name: 'settings', params: { script: script.value } })
 }
-function toggleTranslation() {
-  if (ui.panelOpen && ui.panelTab === 'trans') {
-    ui.panelOpen = false
-  } else {
-    ui.panelTab = 'trans'
-    ui.panelOpen = true
-  }
-}
 const onSearchPage = computed(() => route.name === 'search' || route.name === 'titles' || route.name === 'dict')
 const logo = `${import.meta.env.BASE_URL}images/app-icon.png`
 const { script, conv } = useScript()
