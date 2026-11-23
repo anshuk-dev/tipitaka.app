@@ -54,6 +54,7 @@
         <label class="flex items-center gap-2"><input v-model="settings.paraNums" type="checkbox"> {{ t('Paragraph numbers') }}</label>
         <label class="flex items-center gap-2"><input v-model="settings.tapLookup" type="checkbox"> {{ t('Tap a word to look it up in the dictionary') }}</label>
         <label class="flex items-center gap-2"><input v-model="settings.glosses" type="checkbox" data-testid="glosses-setting"> {{ t('Underline the words explained in the commentaries') }}</label>
+        <label class="flex items-center gap-2 font-medium text-primary"><input v-model="settings.showTranslation" type="checkbox" data-testid="translation-setting"> {{ t('Hindi translation') }}</label>
       </div>
     </section>
 

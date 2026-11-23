@@ -38,12 +38,14 @@ export interface Settings {
   tapLookup: boolean
   /** underline the words explained in the commentaries (and the commentaries' lemmas) */
   glosses: boolean
+  /** show full continuous translation inline underneath each paragraph */
+  showTranslation: boolean
 }
 
 export const DEFAULTS: Settings = {
   script: DEFAULT_SCRIPT, uiLang: 'en', theme: 'light', textSize: 18, leading: 1.65, width: 760, notes: 'pointer', pageRefs: '',
   paraNums: true, dicts: [], tabView: 'single', syncScroll: true, sheetHeight: 45, searchFilter: null, tapLookup: true,
-  glosses: true,
+  glosses: true, showTranslation: false,
 }
 
 /** dictionaries replaced by a newer edition: old code -> new code */

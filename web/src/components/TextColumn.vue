@@ -9,9 +9,99 @@
       <div v-if="from > 0" class="flex justify-center py-3 font-ui">
         <button class="btn text-muted" :disabled="loadingPrev" data-testid="load-prev" @click="loadPrev"><IconUp class="h-4 w-4" />{{ t('Show previous text') }}</button>
       </div>
+
+      <!-- Quick Toggle Banner for Full Sutta Translation -->
+      <div class="mb-5 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary-soft/40 via-surface to-primary-soft/20 p-3.5 shadow-sm font-ui text-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5">
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-xs">
+              <IconLanguages class="h-4 w-4" />
+            </div>
+            <div>
+              <div class="font-semibold text-foreground flex items-center gap-2">
+                <span>सम्पूर्ण सुत्त अनुवाद (Full Translation)</span>
+                <span class="rounded-full bg-primary/10 px-2 py-0.5 text-[0.6875rem] font-medium text-primary">VRI प्रामाणिक शैली</span>
+              </div>
+              <p class="text-[0.75rem] text-muted">
+                {{ settings.showTranslation
+                  ? 'सम्पूर्ण सुत्त का अविरल हिन्दी अनुवाद (गद्य + दोहा) प्रत्येक परिच्छेद के नीचे दर्शित है।'
+                  : 'प्रत्येक पाळि परिच्छेद के नीचे उसका पूरा हिन्दी अनुवाद देखने के लिए टॉगल चालू करें।' }}
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="inline-flex items-center gap-1.5 self-start sm:self-center rounded-xl px-3.5 py-1.5 font-semibold transition-all shadow-sm cursor-pointer text-xs"
+            :class="settings.showTranslation
+              ? 'bg-primary text-white hover:bg-primary-dark shadow-primary/25 ring-2 ring-primary/40'
+              : 'bg-surface border border-line text-foreground hover:border-primary hover:text-primary'"
+            data-testid="sutta-translation-toggle"
+            @click="settings.showTranslation = !settings.showTranslation"
+          >
+            <span class="relative flex h-2 w-2">
+              <span v-if="settings.showTranslation" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2" :class="settings.showTranslation ? 'bg-white' : 'bg-primary'"></span>
+            </span>
+            <span>{{ settings.showTranslation ? 'अनुवाद चालू (ON)' : 'सम्पूर्ण अनुवाद देखें' }}</span>
+          </button>
+        </div>
+      </div>
+
       <!-- every paragraph / verse / heading has an options button (tipitaka.lk): shown on hover, on touch screens after a tap -->
       <div v-for="p in paras" :key="p.i" class="para-wrap" :class="{ 'menu-open': menuFor === p.i, tapped: tapped === p.i }">
         <div :id="`${idPrefix}p${p.i}`" :data-i="p.i" :data-k="p.k" :class="[paraClass(p), { target: p.i === target }]" v-html="render(p)" />
+
+        <!-- Full Continuous Hindi Translation Inline Block -->
+        <div
+          v-if="settings.showTranslation && getTr(p.i)"
+          :id="`${idPrefix}tr-p${p.i}`"
+          class="inline-translation mt-2.5 mb-5 rounded-xl border-l-4 border-primary/80 bg-surface2/60 px-4 py-3.5 text-base leading-relaxed text-foreground shadow-xs transition-all duration-200 hover:bg-surface2/80 font-serif"
+          :class="{
+            'ring-2 ring-primary/50 bg-primary-soft/30': tapped === p.i || p.i === target
+          }"
+          data-testid="inline-translation"
+          @click.stop="onTrClick(p.i, p.k)"
+        >
+          <!-- Sutta / Gatha title if distinct -->
+          <div v-if="getTr(p.i)?.title" class="mb-2 flex items-center justify-between gap-2 font-ui">
+            <div class="flex items-center gap-2">
+              <span class="inline-block rounded px-2 py-0.5 text-xs font-semibold bg-primary-soft text-primary">
+                {{ getTr(p.i)!.title }}
+              </span>
+              <span class="text-[0.75rem] font-medium text-muted">
+                #p{{ p.i }}
+              </span>
+            </div>
+            <span v-if="tapped === p.i || p.i === target" class="rounded bg-primary/15 px-2 py-0.5 text-[0.6875rem] font-medium text-primary">
+              चयनित परिच्छेद
+            </span>
+          </div>
+
+          <!-- Poetic Verse / Doha (Padyārtha) if verse exists -->
+          <div v-if="getTr(p.i)?.v" class="my-2.5 rounded-lg bg-surface/90 p-3.5 font-serif text-[0.9375rem] leading-relaxed border-l-2 border-primary/90 shadow-xs">
+            <div class="text-[0.7rem] font-sans font-semibold text-primary uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <span>पद्यानुवाद (छंद / दोहा)</span>
+            </div>
+            <div class="whitespace-pre-line text-foreground font-medium italic text-center sm:text-left leading-relaxed">
+              {{ getTr(p.i)!.v }}
+            </div>
+          </div>
+
+          <!-- Full Prose Translation (Gadyārtha) -->
+          <div class="text-foreground/95 text-[0.95rem] leading-relaxed whitespace-pre-line font-normal">
+            <div v-if="getTr(p.i)?.v" class="text-[0.7rem] font-sans font-semibold text-muted uppercase tracking-wider mb-1">
+              गद्यार्थ:
+            </div>
+            {{ getTr(p.i)!.t }}
+          </div>
+
+          <!-- Attribution footer -->
+          <div class="mt-2.5 flex items-center justify-between border-t border-line/40 pt-1.5 font-ui text-[0.7rem] text-muted">
+            <span>{{ getTr(p.i)!.translator || 'विपश्यना विशोधन विन्यास (VRI) शैली' }}</span>
+            <span class="capitalize">{{ getTr(p.i)!.source }}</span>
+          </div>
+        </div>
+
         <button class="para-dots" :aria-label="t('Options')" data-testid="para-options" @click.stop="openMenu(p.i, $event.currentTarget as HTMLElement)">
           <IconDots class="h-3.5 w-3.5" />
         </button>
@@ -31,11 +121,13 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { noteTexts, markupToHtml } from '@shared/markup'
 import IconUp from '~icons/lucide/chevrons-up'
 import IconDots from '~icons/lucide/ellipsis'
+import IconLanguages from '~icons/lucide/languages'
 import Floating from './Floating.vue'
 import { useApi } from '@/data/api'
-import type { Book, Para } from '@/data/types'
+import type { Book, Para, Translation } from '@/data/types'
 import type { Span } from '@shared/markup'
 import { useSettings } from '@/stores/settings'
+import { useUi } from '@/stores/ui'
 import { paraClass, paraHtml, wordAtPoint, wordsRegex } from '@/composables/text'
 import { glossIdsAt } from '@/composables/glosses'
 import { t } from '@/i18n'
@@ -67,6 +159,7 @@ const emit = defineEmits<{
 
 const api = useApi()
 const settings = useSettings()
+const ui = useUi()
 const root = ref<HTMLElement>()
 const bottomSentinel = ref<HTMLElement>()
 const paras = ref<Para[]>([])
@@ -75,6 +168,34 @@ const from = ref(0), to = ref(0)
 const loadingPrev = ref(false), loadingNext = ref(false)
 const note = ref<{ el: HTMLElement; html: string } | null>(null)
 const CHUNK = 150
+
+// translations map for inline rendering
+const translations = ref<Map<number, Translation>>(new Map())
+function getTr(paraIdx: number): Translation | undefined {
+  return translations.value.get(paraIdx)
+}
+
+async function fetchTranslations(fromIdx: number, count: number) {
+  if (count <= 0) return
+  try {
+    const res = await api.translation(props.nodeKey, fromIdx, count)
+    if (res && res.translations && res.translations.length > 0) {
+      const nextMap = new Map(translations.value)
+      for (const tr of res.translations) {
+        nextMap.set(tr.i, tr)
+      }
+      translations.value = nextMap
+    }
+  } catch (err) {
+    console.warn('Failed to load translations:', err)
+  }
+}
+
+watch(() => settings.showTranslation, show => {
+  if (show && from.value < to.value) {
+    fetchTranslations(from.value, to.value - from.value)
+  }
+})
 
 const hl = computed(() => wordsRegex(props.highlight ?? []))
 const opts = computed(() => ({ notes: settings.notes, pageRefs: settings.pageRefs, paraNums: settings.paraNums, highlight: hl.value }))
@@ -98,6 +219,7 @@ let gen = 0 // ignore responses of an older load
 async function init() {
   const my = ++gen
   paras.value = []
+  translations.value = new Map()
   htmlCache = new Map()
   const first = props.target ?? props.start
   let c = await api.text(props.nodeKey)
@@ -110,6 +232,9 @@ async function init() {
   to.value = c.to
   paras.value = c.paras
   emit('loaded', c.from, c.to, c.book)
+  if (settings.showTranslation) {
+    fetchTranslations(c.from, c.to - c.from)
+  }
   await nextTick()
   await scrollToPara(first ?? c.from, first === undefined)
   fillView()
@@ -133,6 +258,9 @@ async function loadNext() {
     paras.value = paras.value.concat(c.paras)
     to.value = c.to
     emit('loaded', c.from, c.to, c.book)
+    if (settings.showTranslation) {
+      fetchTranslations(c.from, c.to - c.from)
+    }
   } finally { loadingNext.value = false }
   await nextTick()
   fillView()
@@ -152,6 +280,9 @@ async function loadPrev() {
     paras.value = c.paras.concat(paras.value)
     from.value = c.from
     emit('loaded', c.from, c.to, c.book)
+    if (settings.showTranslation) {
+      fetchTranslations(c.from, c.to - c.from)
+    }
     await nextTick()
     const delta = scrollHeight() - before
     if (el === window) window.scrollBy(0, delta)
@@ -173,6 +304,9 @@ async function scrollToPara(i: number, top = false) {
     from.value = c.from
     to.value = c.to
     emit('loaded', c.from, c.to, c.book)
+    if (settings.showTranslation) {
+      fetchTranslations(c.from, c.to - c.from)
+    }
     await nextTick()
     setTimeout(fillView)
   }
@@ -228,11 +362,26 @@ defineExpose({ scrollToPara, menuClosed: () => { menuFor.value = null }, scrollR
 // the last tapped paragraph shows its options button (touch screens have no hover)
 const tapped = ref<number | null>(null)
 let selected: HTMLElement | null = null
+
+function onTrClick(paraIdx: number, key?: string) {
+  tapped.value = paraIdx
+  const k = key || props.nodeKey
+  ui.translationTarget = { key: k, para: paraIdx }
+  ui.settingTarget = { key: k, para: paraIdx }
+}
+
 function onClick(e: MouseEvent) {
   const target = e.target as HTMLElement
   const ptr = target.closest('.note-ptr') as HTMLElement | null
   const paraEl = target.closest('.para') as HTMLElement | null
+  const trEl = target.closest('.inline-translation') as HTMLElement | null
+  if (trEl) return
   tapped.value = paraEl ? +paraEl.dataset.i! : null
+  if (paraEl) {
+    const k = paraEl.dataset.k || props.nodeKey
+    ui.translationTarget = { key: k, para: +paraEl.dataset.i! }
+    ui.settingTarget = { key: k, para: +paraEl.dataset.i! }
+  }
   if (ptr && paraEl) {
     const p = paras.value.find(x => x.i === +paraEl.dataset.i!)
     const text = p ? noteTexts(p.t)[+ptr.dataset.i!] : ''

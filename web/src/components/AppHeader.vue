@@ -14,11 +14,11 @@
     <!-- on phones the script is chosen in the settings -->
     <div class="hidden sm:block"><ScriptPicker /></div>
     <!-- Quick Translation Toggle Button when in reader -->
-    <button v-if="route.name === 'read'" class="icon-btn flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg text-primary bg-primary-soft hover:bg-primary/20"
-      :class="{ 'ring-2 ring-primary': ui.panelOpen && ui.panelTab === 'trans' }"
-      :title="t('Hindi translation') || 'हिन्दी अनुवाद'" data-testid="header-translation-toggle" @click="toggleTranslation">
+    <button v-if="route.name === 'read'" class="icon-btn flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg transition-all"
+      :class="settings.showTranslation ? 'bg-primary text-white shadow-sm ring-2 ring-primary/40' : 'text-primary bg-primary-soft hover:bg-primary/20'"
+      :title="t('Hindi translation')" data-testid="header-translation-toggle" @click="settings.showTranslation = !settings.showTranslation">
       <IconLanguages class="h-4 w-4" />
-      <span class="hidden md:inline">हिन्दी अनुवाद</span>
+      <span class="hidden md:inline">{{ settings.showTranslation ? 'हिन्दी अनुवाद (चालू)' : 'हिन्दी अनुवाद' }}</span>
     </button>
     <RouterLink :to="{ name: 'bookmarks', params: { script } }" class="icon-btn hidden sm:inline-flex" :aria-label="t('Bookmarks')" :title="t('Bookmarks')">
       <IconBookmark class="h-5 w-5" />
@@ -40,10 +40,12 @@ import ScriptPicker from './ScriptPicker.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUi } from '@/stores/ui'
+import { useSettings } from '@/stores/settings'
 import { useScript } from '@/composables/script'
 import { t } from '@/i18n'
 
 const ui = useUi()
+const settings = useSettings()
 const route = useRoute(), router = useRouter()
 /** the settings button is a toggle: from the settings back to where the user was */
 function toggleSettings() {

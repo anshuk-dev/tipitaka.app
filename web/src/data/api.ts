@@ -231,7 +231,7 @@ export function contentVersion(): string {
     const m = document.querySelector('meta[name="tipitaka-content"]')?.getAttribute('content')
     if (m) return m
   }
-  return __BUILD_INFO__.content_hash || ''
+  return (typeof __BUILD_INFO__ !== 'undefined' ? __BUILD_INFO__.content_hash : '') || ''
 }
 
 class Lru<V> {
