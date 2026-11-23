@@ -11,7 +11,7 @@
       </div>
 
       <!-- Quick Toggle Banner for Full Sutta Translation -->
-      <div class="mb-5 rounded-2xl border border-primary/20 bg-gradient-to-r from-primary-soft/40 via-surface to-primary-soft/20 p-3.5 shadow-sm font-ui text-xs">
+      <div class="mb-5 rounded-2xl border border-line bg-surface p-3.5 shadow-sm font-ui text-xs">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div class="flex items-center gap-2.5">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-xs">
