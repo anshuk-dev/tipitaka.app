@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "status": "book_completed",
+  "pipeline": "timeloop_exhaustive_sutta_by_sutta",
+  "current_canon": "sutta/digha",
+  "completed_books": [
+    {
+      "id": 5,
+      "file": "s0101m.mul",
+      "title": "Sīlakkhandhavaggapāḷi",
+      "total_paras": 1074,
+      "suttas_completed": [
+        "dn-1-1: 1. Brahmajālasuttaṃ (3..216)",
+        "dn-1-2: 2. Sāmaññaphalasuttaṃ (216..368)",
+        "dn-1-3: 3. Ambaṭṭhasuttaṃ (368..468)",
+        "dn-1-4: 4. Soṇadaṇḍasuttaṃ (468..543)",
+        "dn-1-5: 5. Kūṭadantasuttaṃ (543..660)",
+        "dn-1-6: 6. Mahālisuttaṃ (660..691)",
+        "dn-1-7: 7. Jāliyasuttaṃ (691..697)",
+        "dn-1-8: 8. Mahāsīhanādasuttaṃ (697..761)",
+        "dn-1-9: 9. Poṭṭhapādasuttaṃ (761..851)",
+        "dn-1-10: 10. Subhasuttaṃ (851..914)",
+        "dn-1-11: 11. Kevaṭṭasuttaṃ (914..964)",
+        "dn-1-12: 12. Lohiccasuttaṃ (964..991)",
+        "dn-1-13: 13. Tevijjasuttaṃ (991..1067)",
+        "dn-1-uddana: Sīlakkhandhavagga Uddāna (1067..1074)"
+      ],
+      "completed_at_utc": "2026-11-24T03:37:48.891093+00:00"
+    }
+  ],
+  "next_target_book": {
+    "id": 6,
+    "file": "s0102m.mul",
+    "title": "Mahāvaggapāḷi",
+    "total_paras": 1559,
+    "first_sutta": "dn-2-1: 1. Mahāpadānasuttaṃ"
+  },
+  "current_sutta": {
+    "key": "dn-2-1",
+    "title": "1. Mahāpadānasuttaṃ",
+    "para_start": 0,
+    "para_end": 255
+  },
+  "current_para_idx": 0,
+  "stats": {
+    "sīlakkhandhavagga_paras_translated": 1074,
+    "sīlakkhandhavagga_templated_remaining": 0,
+    "total_books_completed_in_timeloop": 1,
+    "last_checkpoint_utc": "2026-11-24T03:37:48.891194+00:00"
+  }
+}
