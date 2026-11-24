@@ -29,21 +29,88 @@
               </p>
             </div>
           </div>
-          <button
-            type="button"
-            class="inline-flex items-center gap-1.5 self-start sm:self-center rounded-xl px-3.5 py-1.5 font-semibold transition-all shadow-sm cursor-pointer text-xs"
-            :class="settings.showTranslation
-              ? 'bg-primary text-white hover:bg-primary-dark shadow-primary/25 ring-2 ring-primary/40'
-              : 'bg-surface border border-line text-foreground hover:border-primary hover:text-primary'"
-            data-testid="sutta-translation-toggle"
-            @click="settings.showTranslation = !settings.showTranslation"
-          >
-            <span class="relative flex h-2 w-2">
-              <span v-if="settings.showTranslation" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2" :class="settings.showTranslation ? 'bg-white' : 'bg-primary'"></span>
-            </span>
-            <span>{{ settings.showTranslation ? 'अनुवाद चालू (ON)' : 'सम्पूर्ण अनुवाद देखें' }}</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="inline-flex items-center gap-1.5 self-start sm:self-center rounded-xl px-3.5 py-1.5 font-semibold transition-all shadow-sm cursor-pointer text-xs"
+              :class="settings.showTranslation
+                ? 'bg-primary text-white hover:bg-primary-dark shadow-primary/25 ring-2 ring-primary/40'
+                : 'bg-surface border border-line text-foreground hover:border-primary hover:text-primary'"
+              data-testid="sutta-translation-toggle"
+              @click="settings.showTranslation = !settings.showTranslation"
+            >
+              <span class="relative flex h-2 w-2">
+                <span v-if="settings.showTranslation" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2" :class="settings.showTranslation ? 'bg-white' : 'bg-primary'"></span>
+              </span>
+              <span>{{ settings.showTranslation ? (settings.translationLang === 'en' ? 'Translation ON (EN)' : 'अनुवाद चालू (HI)') : (settings.translationLang === 'en' ? 'Show Translation' : 'सम्पूर्ण अनुवाद देखें') }}</span>
+            </button>
+            <div v-if="settings.showTranslation" class="inline-flex items-center rounded-lg border border-line bg-surface p-0.5 text-xs shadow-xs">
+              <button
+                type="button"
+                class="px-2 py-0.5 rounded font-semibold transition-all cursor-pointer"
+                :class="settings.translationLang === 'en' ? 'bg-primary text-white shadow-xs' : 'text-muted hover:text-foreground'"
+                @click="settings.translationLang = 'en'"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                class="px-2 py-0.5 rounded font-semibold transition-all cursor-pointer"
+                :class="settings.translationLang === 'hi' ? 'bg-primary text-white shadow-xs' : 'text-muted hover:text-foreground'"
+                @click="settings.translationLang = 'hi'"
+              >
+                HI
+              </button>
+            </div>
+            <!-- Translation Font Picker (5 Fonts) -->
+            <div v-if="settings.showTranslation && settings.translationLang === 'hi'" class="relative">
+              <button
+                type="button"
+                class="inline-flex items-center gap-1 rounded-xl border border-line bg-surface px-2.5 py-1.5 text-xs font-semibold text-foreground hover:border-primary transition-all shadow-xs cursor-pointer"
+                data-testid="inline-trans-font-btn"
+                :title="'अनुवाद फ़ॉन्ट बदलें: ' + currentTransFont.hindiName"
+                @click="showInlineFontMenu = !showInlineFontMenu"
+              >
+                <span class="text-xs text-primary font-bold">अ</span>
+                <span class="hidden md:inline">{{ currentTransFont.name }}</span>
+                <svg class="h-3 w-3 text-muted" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                </svg>
+              </button>
+              <div
+                v-if="showInlineFontMenu"
+                class="absolute left-0 sm:right-0 sm:left-auto top-full mt-1.5 z-40 w-52 rounded-xl border border-line bg-surface/98 p-1.5 shadow-xl backdrop-blur"
+                data-testid="inline-trans-font-menu"
+              >
+                <div class="px-2 py-1 text-[0.6875rem] font-semibold text-muted uppercase tracking-wider">फ़ॉन्ट विकल्प (५ शैलियाँ)</div>
+                <button
+                  v-for="f in TRANS_FONTS"
+                  :key="f.id"
+                  type="button"
+                  class="flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors cursor-pointer"
+                  :class="settings.transFont === f.id ? 'bg-primary text-white font-semibold shadow-2xs' : 'text-foreground hover:bg-surface2'"
+                  :style="{ fontFamily: f.family }"
+                  @click="settings.transFont = f.id; showInlineFontMenu = false"
+                >
+                  <span>{{ f.hindiName }}</span>
+                  <span v-if="settings.transFont === f.id" class="text-xs">✓</span>
+                </button>
+              </div>
+            </div>
+            <!-- Open Translation in Separate Window Button -->
+            <button
+              type="button"
+              class="inline-flex items-center gap-1.5 self-start sm:self-center rounded-xl border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-foreground hover:border-primary hover:text-primary transition-all shadow-xs cursor-pointer"
+              data-testid="sutta-translation-window-btn"
+              title="Open translation in a separate window / अलग विंडो में अनुवाद खोलें"
+              @click="openTranslationWindow()"
+            >
+              <IconExternalLink class="h-3.5 w-3.5 text-primary" />
+              <span class="hidden sm:inline">अलग विंडो</span>
+              <span>(Window)</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -55,7 +122,8 @@
         <div
           v-if="settings.showTranslation && getTr(p.i)"
           :id="`${idPrefix}tr-p${p.i}`"
-          class="inline-translation mt-2.5 mb-5 rounded-xl border-l-4 border-primary/80 bg-surface2/60 px-4 py-3.5 text-base leading-relaxed text-foreground shadow-xs transition-all duration-200 hover:bg-surface2/80 font-serif"
+          class="inline-translation mt-2.5 mb-5 rounded-xl border-l-4 border-primary/80 bg-surface2/60 px-4 py-3.5 text-base leading-relaxed text-foreground shadow-xs transition-all duration-200 hover:bg-surface2/80"
+          :style="{ fontFamily: 'var(--font-trans)' }"
           :class="{
             'ring-2 ring-primary/50 bg-primary-soft/30': tapped === p.i || p.i === target
           }"
@@ -71,6 +139,15 @@
               <span class="text-[0.75rem] font-medium text-muted">
                 #p{{ p.i }}
               </span>
+              <button
+                type="button"
+                class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[0.7rem] font-medium text-muted hover:text-primary hover:bg-surface2 transition-all cursor-pointer"
+                title="Open this paragraph in separate window / अलग विंडो में खोलें"
+                @click.stop="openTranslationWindow(p.i)"
+              >
+                <IconExternalLink class="h-3 w-3" />
+                <span class="hidden sm:inline">विंडो</span>
+              </button>
             </div>
             <span v-if="tapped === p.i || p.i === target" class="rounded bg-primary/15 px-2 py-0.5 text-[0.6875rem] font-medium text-primary">
               चयनित परिच्छेद
@@ -118,15 +195,17 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { noteTexts, markupToHtml } from '@shared/markup'
 import IconUp from '~icons/lucide/chevrons-up'
 import IconDots from '~icons/lucide/ellipsis'
 import IconLanguages from '~icons/lucide/languages'
+import IconExternalLink from '~icons/lucide/external-link'
 import Floating from './Floating.vue'
 import { useApi } from '@/data/api'
 import type { Book, Para, Translation } from '@/data/types'
 import type { Span } from '@shared/markup'
-import { useSettings } from '@/stores/settings'
+import { useSettings, TRANS_FONTS } from '@/stores/settings'
 import { useUi } from '@/stores/ui'
 import { paraClass, paraHtml, wordAtPoint, wordsRegex } from '@/composables/text'
 import { glossIdsAt } from '@/composables/glosses'
@@ -159,6 +238,9 @@ const emit = defineEmits<{
 
 const api = useApi()
 const settings = useSettings()
+
+const showInlineFontMenu = ref(false)
+const currentTransFont = computed(() => TRANS_FONTS.find(f => f.id === settings.transFont) || TRANS_FONTS[0])
 const ui = useUi()
 const root = ref<HTMLElement>()
 const bottomSentinel = ref<HTMLElement>()
@@ -178,7 +260,7 @@ function getTr(paraIdx: number): Translation | undefined {
 async function fetchTranslations(fromIdx: number, count: number) {
   if (count <= 0) return
   try {
-    const res = await api.translation(props.nodeKey, fromIdx, count)
+    const res = await api.translation(props.nodeKey, fromIdx, count, settings.translationLang || 'en')
     if (res && res.translations && res.translations.length > 0) {
       const nextMap = new Map(translations.value)
       for (const tr of res.translations) {
@@ -196,6 +278,34 @@ watch(() => settings.showTranslation, show => {
     fetchTranslations(from.value, to.value - from.value)
   }
 })
+
+watch(() => settings.translationLang, () => {
+  translations.value = new Map()
+  if (settings.showTranslation && from.value < to.value) {
+    fetchTranslations(from.value, to.value - from.value)
+  }
+})
+
+const router = useRouter()
+
+function openTranslationWindow(paraIdx?: number) {
+  const targetIdx = paraIdx !== undefined ? paraIdx : (props.target !== undefined ? props.target : undefined)
+  const hash = targetIdx !== undefined ? `#p${targetIdx}` : ''
+  const resolved = router.resolve({
+    name: 'translation-window',
+    params: { script: props.script, key: props.nodeKey },
+    query: { lang: settings.translationLang || 'en' },
+    hash
+  })
+  const win = window.open(
+    resolved.href,
+    'TipitakaTranslationWindow',
+    'width=880,height=960,resizable=yes,scrollbars=yes,status=no,location=no,toolbar=no,menubar=no'
+  )
+  if (win) {
+    win.focus()
+  }
+}
 
 const hl = computed(() => wordsRegex(props.highlight ?? []))
 const opts = computed(() => ({ notes: settings.notes, pageRefs: settings.pageRefs, paraNums: settings.paraNums, highlight: hl.value }))

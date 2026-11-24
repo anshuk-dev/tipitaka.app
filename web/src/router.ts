@@ -22,7 +22,9 @@ export const routes: RouteRecordRaw[] = [
   { path: `/:script${S}/convert`, name: 'convert', component: () => import('./views/Convert.vue') },
   { path: `/:script${S}/names/:slug(${KEY_RE})?`, name: 'names', component: () => import('./views/Names.vue') },
   { path: `/:script${S}/map`, name: 'map', component: () => import('./views/MapView.vue') },
+  { path: `/:script${S}/trans/:key(${KEY_RE})`, name: 'translation-window', component: () => import('./views/TranslationWindow.vue') },
   { path: `/:script${S}/:key(${KEY_RE})`, name: 'read', component: Reader },
+  { path: `/trans/:key(${KEY_RE})`, name: 'trans-bare', redirect: to => `/${useSettings().script}/trans/${to.params.key}` },
   { path: `/:key(${KEY_RE})`, name: 'bare', redirect: to => `/${useSettings().script}/${to.params.key}` },
   { path: '/:pathMatch(.*)*', name: 'notfound', component: () => import('./views/NotFound.vue') },
 ]

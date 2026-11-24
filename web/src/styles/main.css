@@ -12,6 +12,7 @@
   --gl-mula: rgba(194, 65, 12, .55); --gl-atta: rgba(67, 56, 202, .5); --gl-tika: rgba(21, 128, 61, .55);
   --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
   --font-text: 'pali-latn', 'Noto Serif', Georgia, serif;
+  --font-trans: 'Noto Serif Devanagari', 'pali-deva', Georgia, serif;
   --text-size: 18px; --text-leading: 1.65; --reading-width: 760px;
   color-scheme: light;
 }

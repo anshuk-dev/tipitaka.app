@@ -59,6 +59,34 @@
     </section>
 
     <section>
+      <h2 class="section-title">{{ t('Hindi translation') }} फ़ॉन्ट (Devanagari Font)</h2>
+      <div class="card space-y-3">
+        <p class="text-xs text-muted">
+          हिन्दी अनुवाद (दराज एवं इन-लाइन दृश्य) के लिए ५ विशिष्ट देवनागरी फ़ॉन्ट उपलब्ध हैं। अपनी पसंद के फ़ॉन्ट पर क्लिक करें:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+          <button
+            v-for="f in TRANS_FONTS"
+            :key="f.id"
+            type="button"
+            class="flex flex-col items-start rounded-xl border p-3.5 text-left transition-all cursor-pointer"
+            :class="settings.transFont === f.id ? 'border-primary bg-primary-soft/25 ring-2 ring-primary/40 shadow-xs' : 'border-line hover:border-line-hover bg-surface'"
+            :data-testid="`transfont-${f.id}`"
+            @click="settings.transFont = f.id"
+          >
+            <div class="flex w-full items-center justify-between mb-1.5">
+              <span class="text-sm font-semibold text-foreground">{{ f.hindiName }}</span>
+              <span v-if="settings.transFont === f.id" class="rounded-full bg-primary px-2 py-0.5 text-[0.6875rem] font-bold text-white shadow-2xs">सक्रिय ✓</span>
+            </div>
+            <div class="text-[0.9375rem] text-foreground leading-relaxed" :style="{ fontFamily: f.family }">
+              {{ f.sample }}
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <h2 class="section-title">{{ t('Dictionaries') }}</h2>
       <div class="card"><DictFilter inline /></div>
     </section>
@@ -71,7 +99,7 @@ import DictFilter from '@/components/DictFilter.vue'
 import ScriptPicker from '@/components/ScriptPicker.vue'
 import { computed } from 'vue'
 import { useScript } from '@/composables/script'
-import { useSettings, type NotesMode, type TabView, type Theme } from '@/stores/settings'
+import { useSettings, TRANS_FONTS, type NotesMode, type TabView, type Theme } from '@/stores/settings'
 import { UI_LANGS, t } from '@/i18n'
 
 const settings = useSettings()

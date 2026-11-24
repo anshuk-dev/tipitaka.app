@@ -22,7 +22,7 @@ interface StaticStore {
   childrenMap: Record<string, TNode[]>
   nodeInfos: Record<string, NodeInfo>
   parasByBook: Record<number, TextChunk['paras']>
-  translationsByBook: Record<number, Translation[]>
+  translationsByBook: Record<string | number, Translation[]>
 }
 
 let staticStorePromise: Promise<StaticStore | null> | null = null
@@ -110,17 +110,27 @@ async function resolveStatic<T>(store: StaticStore, op: string, params: Params, 
     const node = store.nodeInfos[key]
     if (!node || node.book < 0) return { key, book: 0, from: 0, to: 0, translations: [] } as unknown as T
 
-    if (!store.translationsByBook[node.book] || store.translationsByBook[node.book].length === 0) {
+    const reqLang = String(params.lang || 'en')
+    const cacheKey = reqLang === 'en' ? `${node.book}_en` : `${node.book}_${reqLang}`
+    const fileSuffix = reqLang === 'en' ? '-en' : ''
+
+    if (!store.translationsByBook[cacheKey] || store.translationsByBook[cacheKey].length === 0) {
       const cleanBase = base === './' ? '' : base.replace(/\/$/, '')
       const v = contentVersion() || Date.now().toString()
-      const url = cleanBase ? `${cleanBase}/books/${node.book}-trans.json?v=${v}` : `books/${node.book}-trans.json?v=${v}`
+      const url = cleanBase ? `${cleanBase}/books/${node.book}-trans${fileSuffix}.json?v=${v}` : `books/${node.book}-trans${fileSuffix}.json?v=${v}`
       const fetched = await fetch(url).then(r => (r.ok ? r.json() : null)).catch(() => null)
       if (fetched) {
-        store.translationsByBook[node.book] = fetched
+        store.translationsByBook[cacheKey] = fetched
+      } else if (fileSuffix) {
+        const fallbackUrl = cleanBase ? `${cleanBase}/books/${node.book}-trans.json?v=${v}` : `books/${node.book}-trans.json?v=${v}`
+        const fallbackFetched = await fetch(fallbackUrl).then(r => (r.ok ? r.json() : null)).catch(() => null)
+        if (fallbackFetched) {
+          store.translationsByBook[cacheKey] = fallbackFetched
+        }
       }
     }
 
-    const allTrs = store.translationsByBook[node.book] || []
+    const allTrs = store.translationsByBook[cacheKey] || []
     const hasFrom = params.from !== undefined && Number(params.from) >= 0
     const from = hasFrom ? Number(params.from) : node.start
     const count = params.count !== undefined && Number(params.count) > 0 ? Number(params.count) : (node.end > from ? node.end - from : 150)
@@ -283,7 +293,7 @@ export class Api {
   children = (key: string) => this.call<TNode[]>('children', { key })
   node = (key: string) => this.call<NodeInfo>('node', { key })
   text = (key: string, from?: number, count?: number) => this.call<TextChunk>('text', { key, from, count })
-  translation = (key: string, from?: number, count?: number, lang = 'hi') => this.call<TranslationChunk>('translation', { key, from, count, lang })
+  translation = (key: string, from?: number, count?: number, lang?: string) => this.call<TranslationChunk>('translation', { key, from, count, lang: lang || 'en' })
   links = (key: string, from?: number, to?: number) => this.call<Link[]>('links', { key, from, to })
   glosses = (key: string, from?: number, to?: number) => this.call<Gloss[]>('glosses', { key, from, to })
   titles = (q: string, filter?: string[], limit?: number) => this.call<TitleHit[]>('titles', { q, filter: filter?.join(','), limit })

@@ -10,7 +10,8 @@
           <IconColumns class="h-4 w-4" /><span>{{ alongside[0] }}<span class="pali pali-inline">{{ conv(COLL_NAME[o.coll]) }}</span>{{ alongside[1] }}</span>
         </button>
       </template>
-      <button class="menu-item" data-testid="menu-translation" @click="showTranslation"><IconLanguages class="h-4 w-4" />{{ t('Hindi translation') || 'हिन्दी अनुवाद' }}</button>
+      <button class="menu-item" data-testid="menu-translation" @click="showTranslation"><IconLanguages class="h-4 w-4" />{{ t('Hindi translation') }}</button>
+      <button class="menu-item" data-testid="menu-translation-window" @click="openTranslationWindow"><IconExternalLink class="h-4 w-4" /><span>{{ t('Translation') }} (Window)</span></button>
       <button v-if="hasLinks" class="menu-item" data-testid="menu-commentary" @click="showLinks"><IconPanel class="h-4 w-4" />{{ t('Show the commentary here') }}</button>
       <button class="menu-item" data-testid="menu-setting" @click="showSetting"><IconMapPin class="h-4 w-4" />{{ t('Where was this taught?') }}</button>
       <button class="menu-item" data-testid="menu-bookmark" @click="toggleBookmark">
@@ -22,9 +23,11 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import IconShare from '~icons/lucide/share-2'
 import IconCopy from '~icons/lucide/copy'
 import IconLanguages from '~icons/lucide/languages'
+import IconExternalLink from '~icons/lucide/external-link'
 import IconColumns from '~icons/lucide/columns-2'
 import IconPanel from '~icons/lucide/panel-bottom-open'
 import IconStar from '~icons/lucide/star'
@@ -100,6 +103,25 @@ function copyText() {
 function showTranslation() {
   const p = props.para!
   ui.openTranslation({ key: p.k, para: p.i })
+}
+const router = useRouter()
+function openTranslationWindow() {
+  const p = props.para
+  if (!p) return
+  const resolved = router.resolve({
+    name: 'translation-window',
+    params: { script: script.value, key: p.k },
+    query: { lang: 'en' },
+    hash: `#p${p.i}`
+  })
+  const win = window.open(
+    resolved.href,
+    'TipitakaTranslationWindow',
+    'width=880,height=960,resizable=yes,scrollbars=yes,status=no,location=no,toolbar=no,menubar=no'
+  )
+  if (win) {
+    win.focus()
+  }
 }
 function showLinks() {
   const p = props.para!

@@ -12,9 +12,57 @@
             {{ conv(sectionTitle) }}
           </div>
         </div>
-        <span class="shrink-0 rounded-full bg-primary-soft px-2 py-0.5 text-xs font-medium text-primary">
-          {{ translations.length }} परिच्छेद
-        </span>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <!-- Font Picker Button / Dropdown (5 Font Options) -->
+          <div class="relative">
+            <button
+              type="button"
+              class="inline-flex items-center gap-1 rounded-md border border-line bg-surface px-2 py-0.5 text-xs font-medium text-foreground hover:border-primary hover:text-primary transition-all shadow-2xs cursor-pointer"
+              data-testid="translation-font-btn"
+              :title="'हिन्दी अनुवाद फ़ॉन्ट बदलें: ' + currentFont.hindiName"
+              @click="showFontMenu = !showFontMenu"
+            >
+              <span class="text-[0.6875rem] font-bold text-primary">अ</span>
+              <span class="hidden sm:inline">{{ currentFont.name }}</span>
+              <svg class="h-3 w-3 text-muted" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div
+              v-if="showFontMenu"
+              class="absolute right-0 top-full mt-1.5 z-40 w-52 rounded-xl border border-line bg-surface/98 p-1.5 shadow-xl backdrop-blur"
+              data-testid="translation-font-menu"
+            >
+              <div class="px-2 py-1 text-[0.6875rem] font-semibold text-muted uppercase tracking-wider">फ़ॉन्ट विकल्प (५ शैलियाँ)</div>
+              <button
+                v-for="f in TRANS_FONTS"
+                :key="f.id"
+                type="button"
+                class="flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors cursor-pointer"
+                :class="settings.transFont === f.id ? 'bg-primary text-white font-semibold shadow-2xs' : 'text-foreground hover:bg-surface2'"
+                :style="{ fontFamily: f.family }"
+                @click="settings.transFont = f.id; showFontMenu = false"
+              >
+                <span>{{ f.hindiName }}</span>
+                <span v-if="settings.transFont === f.id" class="text-xs">✓</span>
+              </button>
+            </div>
+          </div>
+
+          <span class="rounded-full bg-primary-soft px-2 py-0.5 text-xs font-medium text-primary">
+            {{ translations.length }} {{ settings.translationLang === 'en' ? 'paras' : 'परिच्छेद' }}
+          </span>
+          <button
+            type="button"
+            class="inline-flex items-center gap-1 rounded-md border border-line bg-surface px-2 py-0.5 text-xs font-medium text-foreground hover:border-primary hover:text-primary transition-all shadow-xs cursor-pointer"
+            data-testid="translation-view-window-btn"
+            title="Open in separate window (अलग विंडो में खोलें)"
+            @click="openSeparateWindow"
+          >
+            <IconExternalLink class="h-3 w-3 text-primary" />
+            <span class="text-[0.7rem] hidden sm:inline">अलग विंडो</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -59,13 +107,13 @@
         </div>
 
         <!-- Rhythmic Verse / Doha (Padyārtha) if present -->
-        <div v-if="tr.v" class="rounded-lg bg-surface2 p-3 font-serif text-sm leading-relaxed border-l-2 border-primary">
+        <div v-if="tr.v" class="rounded-lg bg-surface2 p-3 text-sm leading-relaxed border-l-2 border-primary" :style="{ fontFamily: 'var(--font-trans)' }">
           <div class="text-xs font-sans font-medium text-muted mb-1">पद्यानुवाद (छंद / दोहा):</div>
           <div class="whitespace-pre-line text-foreground font-medium">{{ tr.v }}</div>
         </div>
 
         <!-- Prose Meaning (Gadyārtha) -->
-        <div class="text-foreground leading-relaxed text-[0.9375rem]">
+        <div class="text-foreground leading-relaxed text-[0.9375rem]" :style="{ fontFamily: 'var(--font-trans)' }">
           <div v-if="tr.v" class="text-xs font-sans font-medium text-muted mb-1">गद्यार्थ:</div>
           <p>{{ tr.t }}</p>
         </div>
@@ -82,18 +130,25 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, nextTick, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import IconExternalLink from '~icons/lucide/external-link'
 import { useApi } from '@/data/api'
 import { useUi } from '@/stores/ui'
 import { useTabs } from '@/stores/tabs'
+import { useSettings, TRANS_FONTS } from '@/stores/settings'
 import { useScript } from '@/composables/script'
 import type { Translation, NodeInfo } from '@/data/types'
 
 const api = useApi()
 const ui = useUi()
 const tabs = useTabs()
+const settings = useSettings()
 const route = useRoute()
+const router = useRouter()
 const { conv } = useScript()
+
+const showFontMenu = ref(false)
+const currentFont = computed(() => TRANS_FONTS.find(f => f.id === settings.transFont) || TRANS_FONTS[0])
 
 const loading = ref(false)
 const err = ref('')
@@ -138,7 +193,7 @@ async function load() {
   try {
     // Request whole section translations (undefined from/count)
     const [transRes, nodeRes] = await Promise.all([
-      api.translation(key, undefined, undefined, 'hi'),
+      api.translation(key, undefined, undefined, settings.translationLang || 'en'),
       api.node(key).catch(() => null),
     ])
     translations.value = transRes.translations || []
@@ -162,7 +217,31 @@ async function scrollToActivePara() {
   }
 }
 
+function openSeparateWindow() {
+  const k = targetKey.value
+  if (!k) return
+  const hash = activePara.value !== null ? `#p${activePara.value}` : ''
+  const resolved = router.resolve({
+    name: 'translation-window',
+    params: { script: route.params.script || 'latn', key: k },
+    query: { lang: settings.translationLang || 'en' },
+    hash
+  })
+  const win = window.open(
+    resolved.href,
+    'TipitakaTranslationWindow',
+    'width=880,height=960,resizable=yes,scrollbars=yes,status=no,location=no,toolbar=no,menubar=no'
+  )
+  if (win) {
+    win.focus()
+  }
+}
+
 watch(targetKey, load)
 watch(activePara, scrollToActivePara)
+watch(() => settings.translationLang, () => {
+  lastLoadedKey = ''
+  load()
+})
 onMounted(load)
 </script>

@@ -13,6 +13,53 @@ export type Theme = 'light' | 'sepia' | 'dark'
 export type NotesMode = 'pointer' | 'inline' | 'hidden'
 /** v2 tab views: one text, tabs, or the tabs side by side as columns */
 export type TabView = 'single' | 'tabbed' | 'columns'
+export type TransFont = 'noto-serif' | 'mukta' | 'martel' | 'tiro' | 'kalam'
+
+export interface TransFontOption {
+  id: TransFont
+  name: string
+  hindiName: string
+  family: string
+  sample: string
+}
+
+export const TRANS_FONTS: TransFontOption[] = [
+  {
+    id: 'noto-serif',
+    name: 'Noto Serif',
+    hindiName: 'नोतो सेरिफ़ (पारम्परिक)',
+    family: "'Noto Serif Devanagari', 'pali-deva', Georgia, serif",
+    sample: 'धम्मं सरणं गच्छामि — समस्त दुःखों से मुक्ति',
+  },
+  {
+    id: 'mukta',
+    name: 'Mukta',
+    hindiName: 'मुक्ता (आधुनिक सेन्स)',
+    family: "'Mukta', 'Noto Sans Devanagari', system-ui, sans-serif",
+    sample: 'धम्मं सरणं गच्छामि — समस्त दुःखों से मुक्ति',
+  },
+  {
+    id: 'martel',
+    name: 'Martel',
+    hindiName: 'मार्तेल (साहित्यिक)',
+    family: "'Martel', 'Noto Serif Devanagari', serif",
+    sample: 'धम्मं सरणं गच्छामि — समस्त दुःखों से मुक्ति',
+  },
+  {
+    id: 'tiro',
+    name: 'Tiro Hindi',
+    hindiName: 'तिरो देवनागरी (शास्त्रीय)',
+    family: "'Tiro Devanagari Hindi', 'Noto Serif Devanagari', serif",
+    sample: 'धम्मं सरणं गच्छामि — समस्त दुःखों से मुक्ति',
+  },
+  {
+    id: 'kalam',
+    name: 'Kalam',
+    hindiName: 'कलम (हस्तलिखित)',
+    family: "'Kalam', cursive, sans-serif",
+    sample: 'धम्मं सरणं गच्छामि — समस्त दुःखों से मुक्ति',
+  },
+]
 
 export interface Settings {
   script: string
@@ -40,12 +87,16 @@ export interface Settings {
   glosses: boolean
   /** show full continuous translation inline underneath each paragraph */
   showTranslation: boolean
+  /** language for continuous inline translation: 'hi' or 'en' */
+  translationLang: 'hi' | 'en'
+  /** font family for Hindi translation: one of 5 Devanagari fonts */
+  transFont: TransFont
 }
 
 export const DEFAULTS: Settings = {
   script: DEFAULT_SCRIPT, uiLang: 'en', theme: 'light', textSize: 18, leading: 1.65, width: 760, notes: 'pointer', pageRefs: '',
   paraNums: true, dicts: [], tabView: 'single', syncScroll: true, sheetHeight: 45, searchFilter: null, tapLookup: true,
-  glosses: true, showTranslation: false,
+  glosses: true, showTranslation: false, translationLang: 'hi', transFont: 'noto-serif',
 }
 
 /** dictionaries replaced by a newer edition: old code -> new code */
@@ -83,6 +134,7 @@ export function loadSettings(): Settings {
   delete (merged as { textSizes?: unknown }).textSizes // per script sizes (v3 beta), dropped
   if (!isScriptCode(merged.script)) merged.script = DEFAULT_SCRIPT
   if (Array.isArray(merged.dicts)) merged.dicts = renameDicts(merged.dicts)
+  if (!TRANS_FONTS.some(f => f.id === merged.transFont)) merged.transFont = 'noto-serif'
   return merged
 }
 
@@ -107,8 +159,15 @@ export const useSettings = defineStore('settings', () => {
   // on <html> too: popovers and dialogs are teleported to <body>, outside the app's [data-script]
   watch(() => s.script, v => { if (typeof document !== 'undefined') document.documentElement.setAttribute('data-script', v) }, { immediate: true })
   watch(() => [s.textSize, s.leading, s.width] as const, applyText, { immediate: true })
+  watch(() => s.transFont, applyTransFont, { immediate: true })
   return toRefs(s) // refs: pinia treats them as state (a returned reactive object would be copied)
 })
+
+export function applyTransFont(fontId?: TransFont) {
+  if (typeof document === 'undefined') return
+  const opt = TRANS_FONTS.find(f => f.id === fontId) || TRANS_FONTS[0]
+  document.documentElement.style.setProperty('--font-trans', opt.family)
+}
 
 function applyTheme(theme: Theme) {
   if (typeof document === 'undefined') return
