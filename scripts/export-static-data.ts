@@ -175,8 +175,12 @@ interface DbTranslation {
   conf: number
 }
 
-const translationsByBook: Record<number, unknown[]> = {}
-for (const b of books) translationsByBook[b.id] = []
+const translationsHiByBook: Record<number, unknown[]> = {}
+const translationsEnByBook: Record<number, unknown[]> = {}
+for (const b of books) {
+  translationsHiByBook[b.id] = []
+  translationsEnByBook[b.id] = []
+}
 
 const allTranslations = db
   .prepare(
@@ -185,7 +189,7 @@ const allTranslations = db
   .all() as DbTranslation[]
 
 for (const tr of allTranslations) {
-  translationsByBook[tr.b].push({
+  const item = {
     i: tr.i,
     title: tr.title,
     t: tr.t,
@@ -194,7 +198,12 @@ for (const tr of allTranslations) {
     source: tr.source,
     translator: tr.translator,
     conf: tr.conf,
-  })
+  }
+  if (tr.lang === 'en') {
+    translationsEnByBook[tr.b].push(item)
+  } else {
+    translationsHiByBook[tr.b].push(item)
+  }
 }
 
 const publicDir = path.join(root, 'web/public')
@@ -206,7 +215,10 @@ if (!fs.existsSync(booksDir)) fs.mkdirSync(booksDir, { recursive: true })
 console.log(`Writing per-book files to ${booksDir}...`)
 for (const b of books) {
   fs.writeFileSync(path.join(booksDir, `${b.id}-text.json`), JSON.stringify(parasByBook[b.id]))
-  fs.writeFileSync(path.join(booksDir, `${b.id}-trans.json`), JSON.stringify(translationsByBook[b.id]))
+  fs.writeFileSync(path.join(booksDir, `${b.id}-trans.json`), JSON.stringify(translationsHiByBook[b.id]))
+  if (translationsEnByBook[b.id].length > 0) {
+    fs.writeFileSync(path.join(booksDir, `${b.id}-trans-en.json`), JSON.stringify(translationsEnByBook[b.id]))
+  }
 }
 
 // Keep parasByBook and translationsByBook on demand in static-data.json so the bundle stays strictly under 25 MB (Cloudflare & GitHub limit)
