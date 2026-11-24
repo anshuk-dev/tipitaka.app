@@ -28,31 +28,6 @@
       "completed_at_utc": "2026-11-24T03:37:48.891093+00:00"
     }
   ],
-  "next_target_book": {
-    "id": 6,
-    "file": "s0102m.mul",
-    "title": "Mahāvaggapāḷi",
-    "total_paras": 1559,
-    "first_sutta": "dn-2-1: 1. Mahāpadānasuttaṃ"
-  },
-  "current_sutta": {
-    "key": "dn-2-3",
-    "title": "3. Mahāparinibbānasuttaṃ",
-    "para_start": 286,
-    "para_end": 661
-  },
-  "current_para_idx": 286,
-  "stats": {
-    "sīlakkhandhavagga_paras_translated": 1074,
-    "sīlakkhandhavagga_templated_remaining": 0,
-    "total_books_completed_in_timeloop": 1,
-    "last_checkpoint_utc": "2026-11-24T04:57:17.177317+00:00",
-    "mahāvaggapāḷi_paras_translated": 286,
-    "mahāpadānasutta_paras_translated": 228,
-    "mahāpadānasutta_duplicates_remaining": 0,
-    "mahānidānasutta_paras_translated": 58,
-    "mahānidānasutta_duplicates_remaining": 0
-  },
   "book_6_progress": {
     "id": 6,
     "file": "s0102m.mul",
@@ -60,7 +35,30 @@
     "total_paras": 1559,
     "suttas_completed": [
       "dn-2-1: 1. Mahāpadānasuttaṃ (0..227) [228 paras]",
-      "dn-2-2: 2. Mahānidānasuttaṃ (228..285) [58 paras]"
-    ]
+      "dn-2-2: 2. Mahānidānasuttaṃ (228..285) [58 paras]",
+      "dn-2-3: 3. Mahāparinibbānasuttaṃ (286..661) [376 paras]"
+    ],
+    "paras_translated": 662,
+    "percent_complete": 42.46
+  },
+  "current_sutta": {
+    "key": "dn-2-4",
+    "title": "4. Mahāsudassanasuttaṃ",
+    "para_start": 662,
+    "para_end": 736
+  },
+  "current_para_idx": 662,
+  "stats": {
+    "sīlakkhandhavagga_paras_translated": 1074,
+    "sīlakkhandhavagga_templated_remaining": 0,
+    "mahāvaggapāḷi_paras_translated": 662,
+    "mahāpadānasutta_paras_translated": 228,
+    "mahāpadānasutta_duplicates_remaining": 0,
+    "mahānidānasutta_paras_translated": 58,
+    "mahānidānasutta_duplicates_remaining": 0,
+    "mahāparinibbānasutta_paras_translated": 376,
+    "mahāparinibbānasutta_duplicates_remaining": 0,
+    "total_scholarly_paras_completed": 1736,
+    "last_checkpoint_utc": "2026-11-24T06:36:00.000000+00:00"
   }
 }
