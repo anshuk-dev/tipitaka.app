@@ -36,20 +36,22 @@
     "first_sutta": "dn-2-1: 1. Mahāpadānasuttaṃ"
   },
   "current_sutta": {
-    "key": "dn-2-2",
-    "title": "2. Mahānidānasuttaṃ",
-    "para_start": 228,
-    "para_end": 285
+    "key": "dn-2-3",
+    "title": "3. Mahāparinibbānasuttaṃ",
+    "para_start": 286,
+    "para_end": 661
   },
-  "current_para_idx": 228,
+  "current_para_idx": 286,
   "stats": {
     "sīlakkhandhavagga_paras_translated": 1074,
     "sīlakkhandhavagga_templated_remaining": 0,
     "total_books_completed_in_timeloop": 1,
-    "last_checkpoint_utc": "2026-11-24T04:28:50.383819+00:00",
-    "mahāvaggapāḷi_paras_translated": 228,
+    "last_checkpoint_utc": "2026-11-24T04:57:17.177317+00:00",
+    "mahāvaggapāḷi_paras_translated": 286,
     "mahāpadānasutta_paras_translated": 228,
-    "mahāpadānasutta_duplicates_remaining": 0
+    "mahāpadānasutta_duplicates_remaining": 0,
+    "mahānidānasutta_paras_translated": 58,
+    "mahānidānasutta_duplicates_remaining": 0
   },
   "book_6_progress": {
     "id": 6,
@@ -57,7 +59,8 @@
     "title": "Mahāvaggapāḷi",
     "total_paras": 1559,
     "suttas_completed": [
-      "dn-2-1: 1. Mahāpadānasuttaṃ (0..227) [228 paras]"
+      "dn-2-1: 1. Mahāpadānasuttaṃ (0..227) [228 paras]",
+      "dn-2-2: 2. Mahānidānasuttaṃ (228..285) [58 paras]"
     ]
   }
 }
