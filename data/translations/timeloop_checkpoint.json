@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "status": "book_completed",
+  "status": "sutta_completed",
   "pipeline": "timeloop_exhaustive_sutta_by_sutta",
   "current_canon": "sutta/digha",
   "completed_books": [
@@ -36,16 +36,28 @@
     "first_sutta": "dn-2-1: 1. Mahāpadānasuttaṃ"
   },
   "current_sutta": {
-    "key": "dn-2-1",
-    "title": "1. Mahāpadānasuttaṃ",
-    "para_start": 0,
-    "para_end": 255
+    "key": "dn-2-2",
+    "title": "2. Mahānidānasuttaṃ",
+    "para_start": 228,
+    "para_end": 285
   },
-  "current_para_idx": 0,
+  "current_para_idx": 228,
   "stats": {
     "sīlakkhandhavagga_paras_translated": 1074,
     "sīlakkhandhavagga_templated_remaining": 0,
     "total_books_completed_in_timeloop": 1,
-    "last_checkpoint_utc": "2026-11-24T03:37:48.891194+00:00"
+    "last_checkpoint_utc": "2026-11-24T04:28:50.383819+00:00",
+    "mahāvaggapāḷi_paras_translated": 228,
+    "mahāpadānasutta_paras_translated": 228,
+    "mahāpadānasutta_duplicates_remaining": 0
+  },
+  "book_6_progress": {
+    "id": 6,
+    "file": "s0102m.mul",
+    "title": "Mahāvaggapāḷi",
+    "total_paras": 1559,
+    "suttas_completed": [
+      "dn-2-1: 1. Mahāpadānasuttaṃ (0..227) [228 paras]"
+    ]
   }
 }

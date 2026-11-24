@@ -328,7 +328,7 @@ func (e *Engine) Translation(ctx context.Context, key string, from, count int, l
 		to = b.ParaCount
 	}
 
-	rows, err := e.text.QueryContext(ctx, "SELECT para_idx, title, text, verse, lang, source, translator, conf FROM translation WHERE book_id = ? AND para_idx >= ? AND para_idx < ? AND lang = ? ORDER BY para_idx", n.Book, from, to, lang)
+	rows, err := e.text.QueryContext(ctx, "SELECT para_idx, COALESCE(title, ''), COALESCE(text, ''), COALESCE(verse, ''), lang, COALESCE(source, ''), COALESCE(translator, ''), conf FROM translation WHERE book_id = ? AND para_idx >= ? AND para_idx < ? AND lang = ? ORDER BY para_idx", n.Book, from, to, lang)
 	if err != nil {
 		return &TranslationChunk{Key: key, Book: n.Book, From: from, To: to, Translations: []Translation{}}, nil
 	}
