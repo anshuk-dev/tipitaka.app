@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "status": "sutta_completed",
+  "status": "book_completed",
   "pipeline": "timeloop_exhaustive_sutta_by_sutta",
   "current_canon": "sutta/digha",
   "completed_books": [
@@ -26,6 +26,26 @@
         "dn-1-uddana: Sīlakkhandhavagga Uddāna (1067..1074)"
       ],
       "completed_at_utc": "2026-11-24T03:37:48.891093+00:00"
+    },
+    {
+      "id": 6,
+      "file": "s0102m.mul",
+      "title": "Mahāvaggapāḷi",
+      "total_paras": 1559,
+      "suttas_completed": [
+        "dn-2-1: 1. Mahāpadānasuttaṃ (0..227) [228 paras]",
+        "dn-2-2: 2. Mahānidānasuttaṃ (228..285) [58 paras]",
+        "dn-2-3: 3. Mahāparinibbānasuttaṃ (286..661) [376 paras]",
+        "dn-2-4: 4. Mahāsudassanasuttaṃ (662..735) [74 paras]",
+        "dn-2-5: 5. Janavasabhasuttaṃ (736..805) [70 paras]",
+        "dn-2-6: 6. Mahāgovindasuttaṃ (806..963) [158 paras]",
+        "dn-2-7: 7. Mahāsamayasuttaṃ (964..1128) [165 paras]",
+        "dn-2-8: 8. Sakkapañhasuttaṃ (1129..1339) [211 paras]",
+        "dn-2-9: 9. Mahāsatipaṭṭhānasuttaṃ (1340..1474) [135 paras]",
+        "dn-2-10: 10. Pāyāsisuttaṃ (1475..1552) [78 paras]",
+        "dn-2-uddana: Mahāvagga Uddāna (1553..1558) [6 paras]"
+      ],
+      "completed_at_utc": "2026-11-24T09:55:41.278020+00:00"
     }
   ],
   "book_6_progress": {
@@ -41,22 +61,26 @@
       "dn-2-5: 5. Janavasabhasuttaṃ (736..805) [70 paras]",
       "dn-2-6: 6. Mahāgovindasuttaṃ (806..963) [158 paras]",
       "dn-2-7: 7. Mahāsamayasuttaṃ (964..1128) [165 paras]",
-      "dn-2-8: 8. Sakkapañhasuttaṃ (1129..1339) [211 paras]"
+      "dn-2-8: 8. Sakkapañhasuttaṃ (1129..1339) [211 paras]",
+      "dn-2-9: 9. Mahāsatipaṭṭhānasuttaṃ (1340..1474) [135 paras]",
+      "dn-2-10: 10. Pāyāsisuttaṃ (1475..1552) [78 paras]",
+      "dn-2-uddana: Mahāvagga Uddāna (1553..1558) [6 paras]"
     ],
-    "paras_translated": 1340,
-    "percent_complete": 85.95
+    "paras_translated": 1559,
+    "percent_complete": 100.0
   },
   "current_sutta": {
-    "key": "dn-2-9",
-    "title": "9. Mahāsatipaṭṭhānasuttaṃ",
-    "para_start": 1340,
-    "para_end": 1475
+    "key": "dn-3-1",
+    "title": "1. Pāthikasuttaṃ",
+    "book_id": 7,
+    "file": "s0103m.mul",
+    "para_start": 0
   },
-  "current_para_idx": 1340,
+  "current_para_idx": 0,
   "stats": {
     "sīlakkhandhavagga_paras_translated": 1074,
     "sīlakkhandhavagga_templated_remaining": 0,
-    "mahāvaggapāḷi_paras_translated": 1340,
+    "mahāvaggapāḷi_paras_translated": 1559,
     "mahāpadānasutta_paras_translated": 228,
     "mahāpadānasutta_duplicates_remaining": 0,
     "mahānidānasutta_paras_translated": 58,
@@ -67,13 +91,18 @@
     "mahāsudassanasutta_duplicates_remaining": 0,
     "janavasabhasutta_paras_translated": 70,
     "janavasabhasutta_duplicates_remaining": 0,
-    "total_scholarly_paras_completed": 2414,
-    "last_checkpoint_utc": "2026-11-24T09:34:24.614456+00:00",
+    "total_scholarly_paras_completed": 2633,
+    "last_checkpoint_utc": "2026-11-24T09:55:41.278020+00:00",
     "mahāgovindasutta_paras_translated": 158,
     "mahāgovindasutta_duplicates_remaining": 0,
     "mahāsamayasutta_paras_translated": 165,
     "mahāsamayasutta_duplicates_remaining": 0,
     "sakkapañhasutta_paras_translated": 211,
-    "sakkapañhasutta_duplicates_remaining": 0
+    "sakkapañhasutta_duplicates_remaining": 0,
+    "mahāsatipaṭṭhānasutta_paras_translated": 135,
+    "mahāsatipaṭṭhānasutta_duplicates_remaining": 0,
+    "pāyāsisutta_paras_translated": 78,
+    "pāyāsisutta_duplicates_remaining": 0,
+    "mahāvagga_uddana_paras_translated": 6
   }
 }
