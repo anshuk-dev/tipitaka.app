@@ -36,29 +36,32 @@
     "suttas_completed": [
       "dn-2-1: 1. Mahāpadānasuttaṃ (0..227) [228 paras]",
       "dn-2-2: 2. Mahānidānasuttaṃ (228..285) [58 paras]",
-      "dn-2-3: 3. Mahāparinibbānasuttaṃ (286..661) [376 paras]"
+      "dn-2-3: 3. Mahāparinibbānasuttaṃ (286..661) [376 paras]",
+      "dn-2-4: 4. Mahāsudassanasuttaṃ (662..735) [74 paras]"
     ],
-    "paras_translated": 662,
-    "percent_complete": 42.46
+    "paras_translated": 736,
+    "percent_complete": 47.21
   },
   "current_sutta": {
-    "key": "dn-2-4",
-    "title": "4. Mahāsudassanasuttaṃ",
-    "para_start": 662,
-    "para_end": 736
+    "key": "dn-2-5",
+    "title": "5. Janavasabhasuttaṃ",
+    "para_start": 736,
+    "para_end": 806
   },
-  "current_para_idx": 662,
+  "current_para_idx": 736,
   "stats": {
     "sīlakkhandhavagga_paras_translated": 1074,
     "sīlakkhandhavagga_templated_remaining": 0,
-    "mahāvaggapāḷi_paras_translated": 662,
+    "mahāvaggapāḷi_paras_translated": 736,
     "mahāpadānasutta_paras_translated": 228,
     "mahāpadānasutta_duplicates_remaining": 0,
     "mahānidānasutta_paras_translated": 58,
     "mahānidānasutta_duplicates_remaining": 0,
     "mahāparinibbānasutta_paras_translated": 376,
     "mahāparinibbānasutta_duplicates_remaining": 0,
-    "total_scholarly_paras_completed": 1736,
-    "last_checkpoint_utc": "2026-11-24T06:36:00.000000+00:00"
+    "mahāsudassanasutta_paras_translated": 74,
+    "mahāsudassanasutta_duplicates_remaining": 0,
+    "total_scholarly_paras_completed": 1810,
+    "last_checkpoint_utc": "2026-11-24T07:18:00.000000+00:00"
   }
 }
