@@ -91,12 +91,21 @@ export interface Settings {
   translationLang: 'hi' | 'en'
   /** font family for Hindi translation: one of 5 Devanagari fonts */
   transFont: TransFont
+  /** Web2API / OpenAI compatible API Key for dynamic AI translation */
+  web2apiKey: string
+  /** Web2API / OpenAI compatible base URL (optional, e.g. http://localhost:8080/v1 or https://api.openai.com/v1) */
+  web2apiUrl: string
+  /** Web2API / OpenAI model name (e.g. gemini-2.5-flash, gpt-4o-mini) */
+  web2apiModel: string
 }
 
 export const DEFAULTS: Settings = {
   script: DEFAULT_SCRIPT, uiLang: 'en', theme: 'light', textSize: 18, leading: 1.65, width: 760, notes: 'pointer', pageRefs: '',
   paraNums: true, dicts: [], tabView: 'single', syncScroll: true, sheetHeight: 45, searchFilter: null, tapLookup: true,
   glosses: true, showTranslation: false, translationLang: 'hi', transFont: 'noto-serif',
+  web2apiKey: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_WEB2API_KEY) ? String(import.meta.env.VITE_WEB2API_KEY) : '',
+  web2apiUrl: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_WEB2API_URL) ? String(import.meta.env.VITE_WEB2API_URL) : '',
+  web2apiModel: (typeof import.meta !== 'undefined' && import.meta.env?.VITE_WEB2API_MODEL) ? String(import.meta.env.VITE_WEB2API_MODEL) : 'gemini-2.5-flash',
 }
 
 /** dictionaries replaced by a newer edition: old code -> new code */

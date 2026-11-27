@@ -190,6 +190,7 @@
     <Floating :open="!!note" :anchor="note?.el ?? null" @close="note = null">
       <div class="reading max-w-xs" style="font-size: calc(var(--text-size) * 0.9)" v-html="note?.html" />
     </Floating>
+    <SelectionToolbar :container="root" />
   </div>
 </template>
 
@@ -202,6 +203,7 @@ import IconDots from '~icons/lucide/ellipsis'
 import IconLanguages from '~icons/lucide/languages'
 import IconExternalLink from '~icons/lucide/external-link'
 import Floating from './Floating.vue'
+import SelectionToolbar from './SelectionToolbar.vue'
 import { useApi } from '@/data/api'
 import type { Book, Para, Translation } from '@/data/types'
 import type { Span } from '@shared/markup'

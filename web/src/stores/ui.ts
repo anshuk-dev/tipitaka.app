@@ -20,6 +20,45 @@ export const useUi = defineStore('ui', () => {
   /** paragraph whose setting (place, people) is shown in the panel's Setting tab: the reading position, a tapped
    * word's paragraph, or the paragraph of the menu */
   const settingTarget = ref<{ key: string; para: number } | null>(null)
+
+  /** modal state for on-demand AI translation of selected text, paragraphs, or sections */
+  const aiTransModal = ref<{
+    open: boolean
+    text: string
+    title?: string
+    key?: string
+    para?: number
+    paraEnd?: number
+    targetLang: 'hi' | 'en'
+  }>({
+    open: false,
+    text: '',
+    title: '',
+    targetLang: 'hi',
+  })
+
+  function openAiTranslation(opts: {
+    text: string
+    title?: string
+    key?: string
+    para?: number
+    paraEnd?: number
+    targetLang?: 'hi' | 'en'
+  }) {
+    aiTransModal.value = {
+      open: true,
+      text: opts.text,
+      title: opts.title || '',
+      key: opts.key,
+      para: opts.para,
+      paraEnd: opts.paraEnd,
+      targetLang: opts.targetLang || 'hi',
+    }
+  }
+
+  function closeAiTranslation() {
+    aiTransModal.value.open = false
+  }
   /** the next navigation comes from inside a tab (breadcrumb, next): it replaces the text instead of opening a tab */
   const navInTab = ref(false)
   /** the last page that was not the settings (the settings button goes back to it) */
@@ -63,6 +102,8 @@ export const useUi = defineStore('ui', () => {
     panelTab.value = 'info'
     panelOpen.value = true
   }
-  return { treeOpen, panelOpen, panelTab, lookupWord, lookupGlosses, alongside, linkTarget, translationTarget, settingTarget, navInTab, lastPage, toast, showToast,
+  return { treeOpen, panelOpen, panelTab, lookupWord, lookupGlosses, alongside, linkTarget, translationTarget, settingTarget,
+    aiTransModal, openAiTranslation, closeAiTranslation,
+    navInTab, lastPage, toast, showToast,
     openLookup, openTranslation, openParaCommentary, openSetting }
 })

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "vite --config web/vite.config.ts",
+    "web2api": "python3 scripts/web2api_server.py",
     "upstream": "tsx build/upstream.ts",
     "build:data": "tsx build/cli.ts",
     "build:fixture": "tsx build/cli.ts --fixture",

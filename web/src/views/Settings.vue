@@ -86,6 +86,117 @@
       </div>
     </section>
 
+    <!-- Web2API AI Translation Configuration -->
+    <section>
+      <h2 class="section-title">AI अनुवाद (Auto Mode + Optional Web2API)</h2>
+      <div class="card space-y-4">
+        <p class="text-xs text-muted leading-relaxed">
+          <strong class="text-emerald-600 dark:text-emerald-400">Auto Mode सक्रिय है:</strong> बिना किसी API Key के भी पाठ चुनकर तुरंत हिन्दी या अंग्रेज़ी में अनुवाद प्राप्त किया जा सकता है। यदि आप चाहें, तो नीचे अपनी Web2API / OpenAI / Gemini Key भी जोड़ सकते हैं।
+        </p>
+
+        <!-- API Key input -->
+        <div class="space-y-1">
+          <label class="block text-xs font-semibold text-foreground">
+            Web2API Key <span class="text-primary">*</span>
+          </label>
+          <div class="relative flex items-center">
+            <input
+              v-model="settings.web2apiKey"
+              :type="showKey ? 'text' : 'password'"
+              placeholder="e.g. sk-... or your Web2API token"
+              class="w-full rounded-lg border border-line bg-surface px-3 py-2 pr-9 text-xs text-foreground focus:border-primary focus:outline-none"
+              data-testid="settings-web2api-key"
+            />
+            <button
+              type="button"
+              class="absolute right-2.5 text-muted hover:text-foreground cursor-pointer"
+              @click="showKey = !showKey"
+            >
+              <IconEyeOff v-if="showKey" class="h-4 w-4" />
+              <IconEye v-else class="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Base URL input with presets -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold text-foreground">
+              API Base URL (Optional)
+            </label>
+            <div class="flex items-center gap-1.5 text-xs">
+              <button
+                type="button"
+                class="text-primary hover:underline cursor-pointer"
+                @click="settings.web2apiUrl = 'http://localhost:8787/v1'"
+              >
+                Local Web2API (8787)
+              </button>
+              <span class="text-muted">•</span>
+              <button
+                type="button"
+                class="text-primary hover:underline cursor-pointer"
+                @click="settings.web2apiUrl = 'https://api.openai.com/v1'"
+              >
+                OpenAI Default
+              </button>
+            </div>
+          </div>
+          <input
+            v-model="settings.web2apiUrl"
+            type="text"
+            placeholder="e.g. http://localhost:8080/v1 or https://api.openai.com/v1"
+            class="w-full rounded-lg border border-line bg-surface px-3 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
+            data-testid="settings-web2api-url"
+          />
+        </div>
+
+        <!-- Model Name input with quick chips -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold text-foreground">
+              Model Name
+            </label>
+            <div class="flex items-center gap-1 text-xs">
+              <button
+                v-for="m in ['gemini-2.5-flash', 'gpt-4o-mini', 'gpt-4o', 'claude-3-5-sonnet']"
+                :key="m"
+                type="button"
+                class="rounded bg-surface px-1.5 py-0.5 border border-line text-[0.6875rem] text-muted hover:text-primary hover:border-primary transition-all cursor-pointer"
+                @click="settings.web2apiModel = m"
+              >
+                {{ m }}
+              </button>
+            </div>
+          </div>
+          <input
+            v-model="settings.web2apiModel"
+            type="text"
+            placeholder="e.g. gemini-2.5-flash or gpt-4o-mini"
+            class="w-full rounded-lg border border-line bg-surface px-3 py-2 text-xs text-foreground focus:border-primary focus:outline-none"
+            data-testid="settings-web2api-model"
+          />
+        </div>
+
+        <!-- Test Connection Button & Status -->
+        <div class="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-t border-line/60">
+          <button
+            type="button"
+            class="btn-primary text-xs py-1.5 px-3 inline-flex items-center gap-1.5"
+            :disabled="testingConnection"
+            @click="testConnection"
+          >
+            <IconRefreshCw v-if="testingConnection" class="h-3.5 w-3.5 animate-spin" />
+            <IconSparkles v-else class="h-3.5 w-3.5" />
+            <span>{{ testingConnection ? 'परीक्षण जारी...' : 'कनेक्शन का परीक्षण करें (Test API)' }}</span>
+          </button>
+          <div v-if="testResult" class="text-xs" :class="testResult.ok ? 'text-emerald-600 font-medium' : 'text-red-500 font-medium'">
+            {{ testResult.message }}
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section>
       <h2 class="section-title">{{ t('Dictionaries') }}</h2>
       <div class="card"><DictFilter inline /></div>
@@ -97,7 +208,12 @@
 import { useHead } from '@unhead/vue'
 import DictFilter from '@/components/DictFilter.vue'
 import ScriptPicker from '@/components/ScriptPicker.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import IconEye from '~icons/lucide/eye'
+import IconEyeOff from '~icons/lucide/eye-off'
+import IconSparkles from '~icons/lucide/sparkles'
+import IconRefreshCw from '~icons/lucide/refresh-cw'
+import { testApiConnection } from '@/composables/aiTranslate'
 import { useScript } from '@/composables/script'
 import { useSettings, TRANS_FONTS, type NotesMode, type TabView, type Theme } from '@/stores/settings'
 import { UI_LANGS, t } from '@/i18n'
@@ -122,5 +238,30 @@ const EDITIONS = computed(() => [
 
 function toggleEdition(id: string) {
   settings.pageRefs = settings.pageRefs.includes(id) ? settings.pageRefs.replace(id, '') : 'MVPT'.split('').filter(e => e === id || settings.pageRefs.includes(e)).join('')
+}
+
+const showKey = ref(false)
+const testingConnection = ref(false)
+const testResult = ref<{ ok: boolean; message: string } | null>(null)
+
+async function testConnection() {
+  if (!settings.web2apiKey) {
+    testResult.value = { ok: false, message: 'कृपया पहले अपनी Web2API Key दर्ज करें।' }
+    return
+  }
+  testingConnection.value = true
+  testResult.value = null
+  try {
+    const res = await testApiConnection({
+      apiKey: settings.web2apiKey,
+      apiUrl: settings.web2apiUrl,
+      model: settings.web2apiModel,
+    })
+    testResult.value = res
+  } catch (err: unknown) {
+    testResult.value = { ok: false, message: (err as Error).message || String(err) }
+  } finally {
+    testingConnection.value = false
+  }
 }
 </script>

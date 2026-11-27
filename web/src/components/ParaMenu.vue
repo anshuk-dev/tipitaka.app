@@ -12,6 +12,8 @@
       </template>
       <button class="menu-item" data-testid="menu-translation" @click="showTranslation"><IconLanguages class="h-4 w-4" />{{ t('Hindi translation') }}</button>
       <button class="menu-item" data-testid="menu-translation-window" @click="openTranslationWindow"><IconExternalLink class="h-4 w-4" /><span>{{ t('Translation') }} (Window)</span></button>
+      <button class="menu-item font-medium text-primary" data-testid="menu-ai-translate-hi" @click="aiTranslate('hi')"><IconSparkles class="h-4 w-4 text-primary" /><span>AI अनुवाद (हिन्दी)</span></button>
+      <button class="menu-item font-medium text-primary" data-testid="menu-ai-translate-en" @click="aiTranslate('en')"><IconSparkles class="h-4 w-4 text-primary" /><span>AI Translate (English)</span></button>
       <button v-if="hasLinks" class="menu-item" data-testid="menu-commentary" @click="showLinks"><IconPanel class="h-4 w-4" />{{ t('Show the commentary here') }}</button>
       <button class="menu-item" data-testid="menu-setting" @click="showSetting"><IconMapPin class="h-4 w-4" />{{ t('Where was this taught?') }}</button>
       <button class="menu-item" data-testid="menu-bookmark" @click="toggleBookmark">
@@ -27,6 +29,7 @@ import { useRouter } from 'vue-router'
 import IconShare from '~icons/lucide/share-2'
 import IconCopy from '~icons/lucide/copy'
 import IconLanguages from '~icons/lucide/languages'
+import IconSparkles from '~icons/lucide/sparkles'
 import IconExternalLink from '~icons/lucide/external-link'
 import IconColumns from '~icons/lucide/columns-2'
 import IconPanel from '~icons/lucide/panel-bottom-open'
@@ -103,6 +106,17 @@ function copyText() {
 function showTranslation() {
   const p = props.para!
   ui.openTranslation({ key: p.k, para: p.i })
+}
+function aiTranslate(lang: 'hi' | 'en') {
+  const p = props.para!
+  const rawText = `${p.n ? p.n + '. ' : ''}${plainText(p.t)}`
+  ui.openAiTranslation({
+    text: rawText,
+    key: p.k,
+    para: p.i,
+    title: `#p${p.i}`,
+    targetLang: lang,
+  })
 }
 const router = useRouter()
 function openTranslationWindow() {

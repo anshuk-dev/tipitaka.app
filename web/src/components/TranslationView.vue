@@ -54,6 +54,16 @@
           </span>
           <button
             type="button"
+            class="inline-flex items-center gap-1 rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary hover:bg-primary hover:text-white transition-all shadow-2xs cursor-pointer"
+            title="AI से इस परिच्छेद/अनुभाग का अनुवाद करें (Web2API)"
+            data-testid="ai-translate-section-btn"
+            @click="openAiTranslate"
+          >
+            <IconSparkles class="h-3 w-3" />
+            <span>AI अनुवाद</span>
+          </button>
+          <button
+            type="button"
             class="inline-flex items-center gap-1 rounded-md border border-line bg-surface px-2 py-0.5 text-xs font-medium text-foreground hover:border-primary hover:text-primary transition-all shadow-xs cursor-pointer"
             data-testid="translation-view-window-btn"
             title="Open in separate window (अलग विंडो में खोलें)"
@@ -74,11 +84,19 @@
       {{ err }}
     </div>
 
-    <div v-else-if="!translations.length" class="py-8 text-center text-muted space-y-2">
-      <div class="text-base font-medium text-foreground">इस अनुभाग का हिन्दी अनुवाद तैयार हो रहा है</div>
+    <div v-else-if="!translations.length" class="py-8 text-center text-muted space-y-3">
+      <div class="text-base font-medium text-foreground">इस अनुभाग का स्थिर अनुवाद उपलब्ध नहीं है</div>
       <p class="text-xs text-muted max-w-xs mx-auto">
-        विपश्यना विशोधन विन्यास (VRI) शैली में प्रामाणिक हिन्दी अनुवाद पाइपलाइन प्रगति पर है।
+        आप Web2API के माध्यम से इसका तुरंत AI अनुवाद प्राप्त कर सकते हैं।
       </p>
+      <button
+        type="button"
+        class="btn-primary inline-flex items-center gap-1.5 mx-auto text-xs py-1.5 px-3"
+        @click="openAiTranslate"
+      >
+        <IconSparkles class="h-4 w-4" />
+        <span>Web2API से तुरंत AI अनुवाद करें</span>
+      </button>
     </div>
 
     <div v-else class="space-y-4">
@@ -101,9 +119,20 @@
             </span>
             <span class="text-xs text-muted">#p{{ tr.i }}</span>
           </div>
-          <span v-if="tr.i === activePara" class="rounded bg-primary/10 px-1.5 py-0.5 text-[0.6875rem] font-medium text-primary">
-            चयनित गाथा
-          </span>
+          <div class="flex items-center gap-1.5">
+            <span v-if="tr.i === activePara" class="rounded bg-primary/10 px-1.5 py-0.5 text-[0.6875rem] font-medium text-primary">
+              चयनित गाथा
+            </span>
+            <button
+              type="button"
+              class="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[0.6875rem] font-medium text-primary hover:bg-primary-soft transition-all cursor-pointer"
+              title="AI से इस परिच्छेद का अनुवाद करें"
+              @click.stop="openAiTranslatePara(tr)"
+            >
+              <IconSparkles class="h-2.5 w-2.5" />
+              <span>AI</span>
+            </button>
+          </div>
         </div>
 
         <!-- Rhythmic Verse / Doha (Padyārtha) if present -->
@@ -132,6 +161,8 @@
 import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import IconExternalLink from '~icons/lucide/external-link'
+import IconSparkles from '~icons/lucide/sparkles'
+import { plainText } from '@shared/markup'
 import { useApi } from '@/data/api'
 import { useUi } from '@/stores/ui'
 import { useTabs } from '@/stores/tabs'
@@ -235,6 +266,57 @@ function openSeparateWindow() {
   if (win) {
     win.focus()
   }
+}
+
+async function openAiTranslate() {
+  const k = targetKey.value
+  if (!k) return
+  let textToTranslate = ''
+  let title = sectionTitle.value || ''
+  try {
+    const textRes = await api.text(k)
+    if (activePara.value !== null) {
+      const p = textRes.paras.find(p => p.i === activePara.value)
+      if (p) {
+        textToTranslate = `${p.n ? p.n + '. ' : ''}${plainText(p.t)}`
+        title = `#p${p.i}`
+      }
+    }
+    if (!textToTranslate && textRes.paras.length) {
+      textToTranslate = textRes.paras.map(p => `${p.n ? p.n + '. ' : ''}${plainText(p.t)}`).join('\n\n')
+    }
+  } catch { /* ignore */ }
+
+  if (!textToTranslate && translations.value.length) {
+    textToTranslate = translations.value.map(t => t.t).join('\n\n')
+  }
+
+  ui.openAiTranslation({
+    text: textToTranslate,
+    key: k,
+    para: activePara.value ?? undefined,
+    title,
+    targetLang: settings.translationLang || 'hi',
+  })
+}
+
+async function openAiTranslatePara(tr: Translation) {
+  const k = targetKey.value
+  let text = ''
+  try {
+    const textRes = await api.text(k, tr.i, 1)
+    const p = textRes.paras.find(p => p.i === tr.i)
+    if (p) text = `${p.n ? p.n + '. ' : ''}${plainText(p.t)}`
+  } catch { /* ignore */ }
+  if (!text) text = tr.t
+
+  ui.openAiTranslation({
+    text,
+    key: k,
+    para: tr.i,
+    title: `#p${tr.i}`,
+    targetLang: settings.translationLang || 'hi',
+  })
 }
 
 watch(targetKey, load)

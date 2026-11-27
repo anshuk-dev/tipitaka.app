@@ -13,6 +13,7 @@
       </main>
       <StudyPanel />
     </div>
+    <AiTranslationDialog />
     <Transition name="fade">
       <div v-if="ui.toast" :key="ui.toast.id" class="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-fg px-4 py-2 text-sm text-bg shadow-lg" role="status" data-testid="toast">
         {{ ui.toast.msg }}
@@ -28,6 +29,7 @@ import { useWindowSize } from '@vueuse/core'
 import AppHeader from './components/AppHeader.vue'
 import TreeDrawer from './components/TreeDrawer.vue'
 import StudyPanel from './components/StudyPanel.vue'
+import AiTranslationDialog from './components/AiTranslationDialog.vue'
 import { useUi } from './stores/ui'
 import { useRouter } from 'vue-router'
 import { firstVisit, useSettings } from './stores/settings'
